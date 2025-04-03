@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/assets/css/fragments/nav-side.css}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+      <div th:fragment="nav-side" class="nav-bar-side">
+        <div class="flex justify-center items-center w-full">
+            <img th:src="@{/assets/images/icons8-avatar-48.png}" alt="">
+            <p>Admin</p>
+            <img th:src="@{/assets/images/icons8-menu-48.png}" alt="">
+        </div>
+        <div class="search-container">
+              <div class="search-box">
+                  <img th:src="@{/assets/images/icon-search.png}" alt="">
+                  <input type="text" name="" id="" placeholder="Search">
+              </div>
+        </div>
+          <div class="logout-container flex justify-center items-center">
+              <img th:src="@{assets/images/icons8-logout-48.png}" alt="">
+              <p>Logout</p>
+          </div>
+
+
+
+      </div>
+</body>
+</html>
