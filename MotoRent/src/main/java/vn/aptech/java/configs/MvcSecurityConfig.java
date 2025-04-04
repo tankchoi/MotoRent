@@ -22,19 +22,19 @@ public class MvcSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/uploads/**", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/logon", "/uploads/**", "/assets/**").permitAll()
                         .requestMatchers("/**").hasAnyAuthority("ADMIN", "STAFF")
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login
-                        .defaultSuccessUrl("/dashboard", true)
-                        .permitAll()
-                )
+                        .loginPage("/logon")
+                        .loginProcessingUrl("/logon")
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/", true))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
-                        .permitAll()
-                );
+                        .logoutSuccessUrl("/logon"));
 
         return http.build();
     }

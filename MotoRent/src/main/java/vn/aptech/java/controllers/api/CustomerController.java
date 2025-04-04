@@ -17,7 +17,6 @@ import vn.aptech.java.services.UserService;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
-
     @Autowired
     private UserService userService;
 
@@ -36,9 +35,6 @@ public class CustomerController {
     @GetMapping("/customer-info")
     public ResponseEntity<?> getCustomerInfo(@AuthenticationPrincipal UserDetails userDetails) {
         User customer = userService.findByEmail(userDetails.getUsername());
-        if (customer == null) {
-            return ResponseEntity.status(404).body("Không tìm thấy khách hàng");
-        }
         return ResponseEntity.ok(new CustomerDTO(customer));
     }
 

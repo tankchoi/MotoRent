@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import vn.aptech.java.dtos.RegisterCustomerDTO;
 import vn.aptech.java.dtos.UpdateCusomerDTO;
+import vn.aptech.java.dtos.UpdateStaffDTO;
 import vn.aptech.java.models.User;
 import vn.aptech.java.repositories.UserRepository;
 import java.io.IOException;
@@ -48,9 +49,6 @@ public class UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
         User user = userRepository.findByEmail(currentUsername);
-        if (user == null) {
-            throw new IllegalArgumentException("Người dùng không tồn tại");
-        }
         User existingEmailUser = userRepository.findByEmail(cusomerDTO.getEmail());
         if (existingEmailUser != null && !existingEmailUser.getId().equals(user.getId())) {
             throw new IllegalArgumentException("Email đã tồn tại");
@@ -78,5 +76,23 @@ public class UserService {
         }
         userRepository.save(user);
     }
+    public void updateStaff(UpdateStaffDTO staffDTO) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        User user = userRepository.findByEmail(currentUsername);
+        User existingEmailUser = userRepository.findByEmail(staffDTO.getEmail());
+        if (existingEmailUser != null && !existingEmailUser.getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Email đã tồn tại");
+        }
+        User existingPhoneUser = userRepository.findByPhone(staffDTO.getPhone());
+        if (existingPhoneUser != null && !existingPhoneUser.getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+        }
+        user.setFullName(staffDTO.getFullName());
+        user.setEmail(staffDTO.getEmail());
+        user.setPhone(staffDTO.getPhone());
+        userRepository.save(user);
+    }
+
 
 }

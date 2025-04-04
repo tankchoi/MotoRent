@@ -15,10 +15,6 @@ public class UpdateCusomerDTO {
     @Pattern(regexp = "0\\d{9}", message = "Số điện thoại phải có 10 số và bắt đầu bằng số 0")
     private String phone;
 
-    @NotBlank(message = "Mật khẩu không được để trống")
-    @Size(min = 6, message = "Mật khẩu phải có ít nhất 6 ký tự")
-    private String password;
-
     private MultipartFile identityCard; // Ảnh CMND/CCCD
 
     private MultipartFile driverLicense; // Ảnh giấy phép lái xe
@@ -35,10 +31,6 @@ public class UpdateCusomerDTO {
 
     public String getPhone() {
         return phone;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public MultipartFile getIdentityCard() {
@@ -61,9 +53,6 @@ public class UpdateCusomerDTO {
         this.phone = phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void setIdentityCard(MultipartFile identityCard) {
         this.identityCard = identityCard;
