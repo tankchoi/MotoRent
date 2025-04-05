@@ -1,0 +1,63 @@
+.main-container{
+    display: flex;
+    /*height: 100vh;*/
+}
+.vehicle-manager-container{
+    padding: 20px;
+    flex-grow: 1;
+
+}
+.heading-page{
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+/*trong moi giao dien*/
+
+.heading {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.input-contain input {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+
+.confirm-btn{
+    margin: 0 20px;
+    margin-top: 20px;
+    padding: 8px 20px;
+    background: forestgreen;
+    border-radius: 15px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.confirm-btn:hover{
+    background: #ffffff;
+    border: 2px solid forestgreen;
+    color: forestgreen;
+    transition: 0.7ms ease;
+}
+
+.cancel-btn{
+    background: #ffffff;
+    border: 2px solid red;
+    color: red;
+    border-radius: 15px;
+    padding: 8px 20px;
+    margin: 0 20px;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.cancel-btn:hover{
+    transition: 0.7ms ease;
+    color: #ffffff;
+    background: #ff0000;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,25 +7,52 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
-      <div th:fragment="nav-side" class="nav-bar-side">
-        <div class="flex justify-center items-center w-full">
-            <img th:src="@{/assets/images/icons8-avatar-48.png}" alt="">
-            <p>Admin</p>
-            <img th:src="@{/assets/images/icons8-menu-48.png}" alt="">
+    <div th:fragment="nav-side" class="nav-bar">
+        <div class="profile-contain">
+            <div class="profile-content">
+                <p class="logo-profile">A</p>
+                <p>Admin</p>
+            </div>
         </div>
         <div class="search-container">
-              <div class="search-box">
-                  <img th:src="@{/assets/images/icon-search.png}" alt="">
-                  <input type="text" name="" id="" placeholder="Search">
-              </div>
+            <img th:src="@{assets/images/icon-search.png}" alt="">
+            <input type="text" placeholder="Tìm kiếm" name="" id="">
         </div>
-          <div class="logout-container flex justify-center items-center">
-              <img th:src="@{assets/images/icons8-logout-48.png}" alt="">
-              <p>Logout</p>
-          </div>
+        <div class="menu">
+            <h4 class="heading-menu">CHUNG</h4>
+            <hr style="border: 0.5px dot-dash #555555;">
+            <div class="menu-item" th:classappend="${activePage == 'home'} ? 'active'">
+                <a href="">Trang chủ</a>
+            </div>
+            <div class="menu-item" th:classappend="${activePage == 'customers'} ? 'active'">
+                <img src="" alt="">
+                <a href="">khách hàng</a>
+            </div>
+            <div class="menu-item">
+                <img src="" alt="">
+                <a href="">Đơn hàng</a>
+            </div>
+            <div class="menu-item">
+                <img src="" alt="">
+                <a href="">Phương tiện</a>
+            </div>
+            <h4 class="heading-menu" sec:authorize="hasRole('EMPLOYEE')">QUẢN LÝ</h4>
+            <hr style="border: 1px dot-dash #555555;">
+            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')">
+                <img src="" alt="">
+                <a href="">Nhân viên</a>
+            </div>
+            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')">
+                <img src="" alt="">
+                <a href="">Hoạt động</a>
+            </div>
+            <hr style="border: 0.5px dot-dash #555555;">
+            <div class="menu-item">
+                <img src="" alt="">
+                <a href="">Đăng xuất</a>
+            </div>
+        </div>
 
-
-
-      </div>
+    </div>
 </body>
 </html>

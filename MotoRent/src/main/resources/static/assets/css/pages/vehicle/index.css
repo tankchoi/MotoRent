@@ -1,0 +1,29 @@
+.main-container{
+    display: flex;
+    height: 100vh;
+}
+.vehicle-manager-container{
+    padding: 20px;
+    flex-grow: 1;
+
+}
+.heading-page{
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+/*trong moi giao dien*/
+.add-btn {
+    padding: 4px 4px;
+    margin-bottom: 20px;
+
+}
+
+.add-btn a {
+    border: 0.5px solid #e5e5e5;
+    text-decoration: none;
+    background-color: green;
+    color: #ffffff;
+    padding: 8px 26px;
+    border-radius: 15px;
+}
