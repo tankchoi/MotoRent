@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" th:href="@{/assets/css/pages/homepage/index.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/fragments/nav-side.css}">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="main-container">
+    <div th:insert="fragments/nav-side :: nav-side"></div>
+    <div class="page-container">
+        <div class="noti-container">
+            <a href=""><img th:src="@{/assets/images/icons8-notification-32.png}" alt=""><sub>1</sub></a>
+        </div>
+        <div class="chart-container">
+            <div class="card-container flex justify-between   ">
+                <div class="chart-card flex-1">
+                    <h1 class="block">Tổng số người dùng</h1>
+                    <p class="block">100</p>
+                </div>
+                <div class="chart-card flex-1">
+                    <h1>Người dùng mới hôm nay</h1>
+                    <p>10</p>
+                </div>
+            </div>
+            <div class="chart-content">
+                <canvas id="myPieChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-container">
+            <div class="card-container flex justify-between   ">
+                <div class="chart-card flex-1">
+                    <h1 class="block">Tổng số phương tiện</h1>
+                    <p class="block">100</p>
+                </div>
+                <div class="chart-card flex-1">
+                    <h1>Người dùng mới hôm nay</h1>
+                    <p>10</p>
+                </div>
+            </div>
+            <div class="chart-content">
+                <canvas id="myBarChart"></canvas>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"></div>
+
+<script>
+    const ctx = document.getElementById('myPieChart');
+
+    new Chart(ctx, {
+        type: 'pie', // Loại biểu đồ là 'pie' cho biểu đồ tròn
+        data: {
+            labels: ['Khách hàng', 'Nhân viên', 'Quản lý'], // Nhãn cho từng phần của biểu đồ
+            datasets: [{
+                label: 'Dữ liệu', // Nhãn cho dataset (có thể bỏ qua đối với biểu đồ tròn)
+                data: [30, 40, 30], // Mảng các giá trị dữ liệu tương ứng với nhãn
+                backgroundColor: [ // Mảng màu nền cho từng phần
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4 // Khoảng cách "nhô" ra khi di chuột vào một phần
+            }]
+        },
+        options: {
+            responsive: true, // Cho phép biểu đồ tự động điều chỉnh kích thước theo container
+            maintainAspectRatio: false, // Không duy trì tỷ lệ khung hình (có thể tùy chỉnh kích thước tự do)
+            plugins: {
+                legend: {
+                    position: 'top', // Vị trí hiển thị chú giải (top, bottom, left, right)
+                },
+                title: {
+                    display: true,
+                    text: 'Biểu đồ tròn ví dụ' // Tiêu đề của biểu đồ
+                }
+            }
+        }
+    });
+</script>
+<script>
+    const ctx = document.getElementById('myBarChart');
+
+    new Chart(ctx, {
+        type: 'bar', // Loại biểu đồ là 'bar' cho biểu đồ cột
+        data: {
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'], // Nhãn cho các cột (thường là trục x)
+            datasets: [{
+                label: 'Doanh thu (triệu VNĐ)', // Nhãn cho dataset
+                data: [65, 59, 80, 81, 56, 55], // Mảng các giá trị dữ liệu tương ứng với nhãn
+                backgroundColor: 'rgba(54, 162, 235, 0.8)', // Màu nền cho các cột (có thể là một màu duy nhất hoặc một mảng màu)
+                borderColor: 'rgba(54, 162, 235, 1)', // Màu viền cho các cột
+                borderWidth: 1 // Độ dày của viền
+            },
+                {
+                    label: 'Chi phí (triệu VNĐ)',
+                    data: [40, 45, 60, 70, 45, 50],
+                    backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true, // Bắt đầu trục y từ 0
+                    title: {
+                        display: true,
+                        text: 'Giá trị (triệu VNĐ)' // Tiêu đề cho trục y
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Tháng' // Tiêu đề cho trục x
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Biểu đồ Doanh thu và Chi phí 6 tháng đầu năm'
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

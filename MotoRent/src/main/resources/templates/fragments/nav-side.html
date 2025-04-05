@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="search-container">
-            <img th:src="@{assets/images/icon-search.png}" alt="">
+            <img th:src="@{/assets/images/icon-search.png}" alt="">
             <input type="text" placeholder="Tìm kiếm" name="" id="">
         </div>
         <div class="menu">
@@ -28,21 +28,21 @@
                 <img src="" alt="">
                 <a href="">khách hàng</a>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" th:classappend="${activePage == 'rentals'} ? 'active'">
                 <img src="" alt="">
                 <a href="">Đơn hàng</a>
             </div>
-            <div class="menu-item">
+            <div class="menu-item" th:classappend="${activePage == 'vehicles'} ? 'active'">
                 <img src="" alt="">
                 <a href="">Phương tiện</a>
             </div>
-            <h4 class="heading-menu" sec:authorize="hasRole('EMPLOYEE')">QUẢN LÝ</h4>
+            <h4 class="heading-menu" sec:authorize="hasRole('EMPLOYEE')" >QUẢN LÝ</h4>
             <hr style="border: 1px dot-dash #555555;">
-            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')">
+            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')" th:classappend="${activePage == 'staffs'} ? 'active'">
                 <img src="" alt="">
                 <a href="">Nhân viên</a>
             </div>
-            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')">
+            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')" th:classappend="${activePage == 'logs'} ? 'active'">
                 <img src="" alt="">
                 <a href="">Hoạt động</a>
             </div>

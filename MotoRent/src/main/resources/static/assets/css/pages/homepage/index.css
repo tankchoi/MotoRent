@@ -1,0 +1,80 @@
+.main-container{
+    display: flex;
+    height-min:  100vh;
+}
+.page-container{
+
+    flex-grow: 1;
+
+}
+.heading-page{
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+/*trong moi giao dien*/
+
+.noti-container{
+    display: flex;
+    justify-content: end;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 20px;
+}
+
+.noti-container a{
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+}
+
+/* Container cho các thẻ biểu đồ */
+.chart-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* Chia thành 3 cột */
+    gap: 20px;
+    padding: 20px;
+    justify-items: center;  /* Canh giữa các phần tử */
+
+}
+.card-container{
+    width: 100%;
+
+}
+
+
+/* Thẻ card hiển thị số liệu */
+.chart-card {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    margin: 10px;
+}
+
+.chart-card h1 {
+    font-size: 1.25rem;
+    color: #1f2937;  /* Màu xám đậm */
+    margin-bottom: 10px;
+}
+
+.chart-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2563eb;
+}
+
+/* Phần biểu đồ (Canvas) */
+.chart-container div {
+    grid-column: span 3;
+    justify-content: center;
+    align-items: center;
+}
+
+#myPieChart {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}

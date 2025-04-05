@@ -1,3 +1,4 @@
+
 .my-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -58,7 +59,6 @@
 }
 
 .search-container {
-    /* border: 1px solid black; */
     padding: 8px;
     align-items: center;
     display: flex;
@@ -87,9 +87,9 @@
 
 .menu-item {
     margin: 10px 0;
-    font-size: medium;
+    font-size: 18px;
     padding: 8px;
-    font-weight: 700;
+    font-weight: 600;
     display: flex;
 }
 
@@ -101,8 +101,13 @@
 }
 
 .menu-item:hover a {
-    background-color: rgb(209, 24, 24);
-    transition: 2ms;
-    color: white;
+    color: rgb(209, 24, 24);
+    transition: 5ms;
+    border-bottom: 1px solid rgb(209, 24, 24);
 
+}
+
+.menu-item.active a {
+    color: rgb(209, 24, 24);
+    font-weight: 700;
 }

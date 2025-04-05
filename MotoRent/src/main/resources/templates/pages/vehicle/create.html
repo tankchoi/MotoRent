@@ -7,30 +7,27 @@
     <link rel="stylesheet" th:href="@{/assets/css/fragments/nav-side.css}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="main-container">
     <div th:insert="fragments/nav-side :: nav-side"></div>
-
-    <div class="vehicle-manager-container">
-        <form action="" method="POST" enctype="multipart/form-data">
+    <div class="page-container">
+        <a href="/vehicle">Quay lại</a>
             <h2 class="heading-page">Thông tin phương tiện</h2>
             <p class="item-id"></p>
+        <form action="/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="imageUploadForm">
             <div class="grid grid-cols-12 gap-4 mt-4">
                 <div class="col-span-12">
                     <h2 class="text-xl font-bold mb-4">Thêm ảnh</h2>
                     <div class="mb-4">
-                        <label class="block mb-1 font-medium">Chọn ảnh từ máy:</label>
-                        <input type="file" id="fileInput" accept="image/*" class="block w-full mb-4 border border-gray-300 rounded-md p-2" multiple/>
+                        <!-- Thay thế input file bằng Dropzone -->
+                        <div class="dropzone-previews">
+                            <div id="dropzone-preview" class="dropzone-previews"></div>
+                        </div>
                     </div>
-
-
                     <div id="imageCount" class="text-gray-500 mb-4 italic">Chưa có ảnh nào</div>
-
-
-                    <div id="imagePreview" class="mt-6 overflow-x-auto flex space-x-4 pb-4">
-
-                    </div>
                 </div>
 
                 <div class="col-span-6">
@@ -80,57 +77,66 @@
 <div th:replace="fragments/footer :: footer"></div>
 
 <script>
-    const imagePreview = document.getElementById("imagePreview");
-    const imageCount = document.getElementById("imageCount");
+    Dropzone.autoDiscover = false;
 
-    // Hàm hiển thị ảnh
-    function showImage(src) {
-        const imageContainer = document.createElement("div");
-        imageContainer.classList.add("flex-shrink-0");
+    let uploadedImageUrls = [];
 
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = "Preview";
-        img.classList.add("h-24", "w-24", "object-cover", "rounded", "border");
+    const myDropzone = new Dropzone("#imageUploadForm", {
+        url: "/upload",
+        maxFilesize: 2,
+        acceptedFiles: "image/*",
+        addRemoveLinks: true,
+        dictDefaultMessage: "Kéo và thả ảnh vào đây hoặc nhấn để chọn",
+        dictRemoveFile: "Xóa",
+        init: function () {
+            this.on("success", function (file, response) {
+                console.log("Ảnh đã được tải lên thành công:", response);
+                uploadedImageUrls.push(response);
+                file.uploadedFileName = response; // gán tên ảnh cho file (phòng khi cần)
+                updateImageCount();
+            });
 
-        const removeButton = document.createElement("button");
-        removeButton.classList.add("removeButton", "mt-2", "bg-red-500", "text-white", "px-4", "py-1", "rounded", "hover:bg-red-600");
-        removeButton.innerText = "Xóa ảnh";
-
-        // Thêm logic cho nút xóa ảnh
-        removeButton.addEventListener("click", function () {
-            imageContainer.remove();
-            updateImageCount();
-        });
-
-        imageContainer.appendChild(img);
-        imageContainer.appendChild(removeButton);
-        imagePreview.appendChild(imageContainer);
-
-        updateImageCount();
-    }
-
-    // Cập nhật số lượng ảnh
-    function updateImageCount() {
-        const images = imagePreview.querySelectorAll("img");
-        const count = images.length;
-
-        if (count > 0) {
-            imageCount.textContent = `Đã tải lên ${count} ảnh`;
-        } else {
-            imageCount.textContent = "Chưa có ảnh nào";
-        }
-    }
-
-    // Khi tải ảnh từ máy
-    fileInput.addEventListener("change", function () {
-        const file = this.files[0];
-        if (file) {
-            const url = URL.createObjectURL(file);
-            showImage(url); // Hiển thị ảnh tải lên
+            this.on("removedfile", function (file) {
+                const name = file.uploadedFileName;
+                uploadedImageUrls = uploadedImageUrls.filter(url => url !== name);
+                updateImageCount();
+            });
         }
     });
+
+    function updateImageCount() {
+        const images = myDropzone.files.length;
+        const imageCount = document.getElementById("imageCount");
+        imageCount.textContent = images > 0 ? `Đã tải lên ${images} ảnh` : "Chưa có ảnh nào";
+    }
+
+    document.getElementById("confirmButton").addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const vehicleData = {
+            vehicleName: document.getElementById("vehicleName").value,
+            brand: document.getElementById("brand").value,
+            price: parseFloat(document.getElementById("price").value),
+            licensePlate: document.getElementById("licensePlate").value,
+            description: document.getElementById("description").value,
+            imageUrls: uploadedImageUrls // Gửi mảng tên ảnh về backend
+        };
+
+        fetch("/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(vehicleData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                alert(data);
+                // Optionally reload or redirect
+            });
+    });
 </script>
+
 
 
 </body>

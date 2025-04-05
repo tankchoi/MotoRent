@@ -11,101 +11,41 @@
 <body>
 <div class="main-container">
     <div th:insert="fragments/nav-side :: nav-side"></div>
-    <div class="vehicle-manager-container">
+    <div class="page-container">
         <h2 class="heading-page">Quản lý khách hàng</h2>
         <div class="table-container">
             <table id="myTable" class="display">
                 <thead>
                 <tr>
                     <th>Mã</th>
-                    <th>Tên</th>
+                    <th>Họ và tên</th>
                     <th>Email</th>
-                    <th>CCCD</th>
-                    <th>Bằng lái xe</th>
-                    <th>Mô tả</th>
+                    <th>Số điện thoại</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
+                    <td>Nguyễn Văn B</td>
+                    <td>NVB@gmail.com</td>
+                    <td>6000012345</td>
+                    <td class="px-2 py-1">
+                        <div class="flex gap-2">
+                            <a href="vehicle/edit" class="edit-btn flex items-center gap-1 px-2 py-1" title="Bấm vào để xem chi tiết">
+                                Chi tiết
+                                <img th:src="@{/assets/images/icons8-edit-16.png}" alt="" class="w-4 h-4 inline-block" />
+                            </a>
+                            <form action="" class="delete-btn flex items-center justify-center px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                                <button class="flex item-center justify-center">
+                                    Khóa
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
+
                 </tbody>
             </table>
 

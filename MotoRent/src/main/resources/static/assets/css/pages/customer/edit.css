@@ -62,3 +62,16 @@
     color: #ffffff;
     background: #ff0000;
 }
+
+.heading-history{
+    border-top: 0.3px solid #e5e5e5;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.edit-btn{
+    color: green;
+    font-weight: 700;
+    font-size: 16px;
+}
