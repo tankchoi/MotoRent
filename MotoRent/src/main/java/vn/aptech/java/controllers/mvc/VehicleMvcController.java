@@ -17,7 +17,7 @@ public class VehicleMvcController {
      @GetMapping
      public String getAllVehicles(Model model) {
          model.addAttribute("vehicles", vehicleService.getAllVehicles());
-         return "page";
+         return "pages/vehicle/index";
      }
     @GetMapping("/{id}")
     public String getVehicleById(@PathVariable Long id, Model model) {

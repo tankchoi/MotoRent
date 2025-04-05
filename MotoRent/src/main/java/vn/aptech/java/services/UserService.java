@@ -5,12 +5,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import vn.aptech.java.dtos.CustomerDTO;
 import vn.aptech.java.dtos.RegisterCustomerDTO;
 import vn.aptech.java.dtos.UpdateCusomerDTO;
 import vn.aptech.java.dtos.UpdateStaffDTO;
 import vn.aptech.java.models.User;
 import vn.aptech.java.repositories.UserRepository;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -93,7 +95,10 @@ public class UserService {
         user.setPhone(staffDTO.getPhone());
         userRepository.save(user);
     }
-
+    public List<CustomerDTO> getAllCustomers() {
+        List<User> users = userRepository.findAllByRole(User.Role.CUSTOMER);
+        return users.stream().map(CustomerDTO::new).toList();
+    }
 
 
 
