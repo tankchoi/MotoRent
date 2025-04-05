@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Quản lý phương tiện</title>
     <link rel="stylesheet" th:href="@{/assets/css/pages/vehicle/index.css}">
     <link rel="stylesheet" th:href="@{/assets/css/fragments/nav-side.css}">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -11,11 +11,16 @@
 <body>
 <div class="main-container">
     <div th:insert="fragments/nav-side :: nav-side"></div>
+
     <div class="vehicle-manager-container">
         <h2 class="heading-page">Quản lý phương tiện</h2>
+
+        <!-- Nút thêm phương tiện -->
         <div class="add-btn">
-            <a href="">Thêm phương tiện</a>
+            <a th:href="@{/vehicles/create}">Thêm phương tiện</a>
         </div>
+
+        <!-- Bảng danh sách -->
         <div class="table-container">
             <table id="myTable" class="display">
                 <thead>
@@ -29,109 +34,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
+                <tr th:each="vehicle : ${vehicles}">
+                    <td th:text="${vehicle.id}"></td>
+                    <td th:text="${vehicle.name}"></td>
+                    <td th:text="${vehicle.brand}"></td>
+                    <td th:text="${#numbers.formatDecimal(vehicle.pricePerDay, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                    <td th:text="${vehicle.licensePlate}"></td>
+                    <td th:text="${vehicle.description}"></td>
                 </tr>
                 </tbody>
             </table>
-
-
         </div>
-
-
     </div>
 </div>
+
+<!-- Footer -->
 <div th:replace="fragments/footer :: footer"></div>
 
-
-
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         new DataTable("#myTable", {
-            paging: true,        // Bật phân trang
-            searching: true,     // Bật tìm kiếm
-            ordering: true,      // Cho phép sắp xếp
-            info: true,          // Hiển thị số dòng đang xem
-            lengthMenu: [10, 20, 30, 40], // Tùy chọn số dòng hiển thị
+            paging: true,
+            searching: true,
+            ordering: true,
+            info: true,
+            lengthMenu: [10, 20, 30, 40],
             language: {
                 search: "Tìm kiếm:",
                 lengthMenu: "Hiển thị _MENU_ dòng",
