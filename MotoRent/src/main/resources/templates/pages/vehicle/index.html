@@ -14,7 +14,7 @@
     <div class="vehicle-manager-container">
         <h2 class="heading-page">Quản lý phương tiện</h2>
         <div class="add-btn">
-            <a href="">Thêm phương tiện</a>
+            <a th:href="@{/vehicles/create}">Thêm phương tiện</a>
         </div>
         <div class="table-container">
             <table id="myTable" class="display">
@@ -26,17 +26,21 @@
                     <th>Giá thuê</th>
                     <th>Biển số</th>
                     <th>Mô tả</th>
+                    <th>Tạo lúc</th>
+                    <th>Sửa lúc</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Vision</td>
-                    <td>Honda</td>
-                    <td>60000đ</td>
-                    <td>29E2-12345</td>
-                    <td>Xe ga đời mới</td>
+                <tr th:each="vehicle : ${vehicles}">
+                    <td th:text="${vehicle.id}"></td>
+                    <td th:text="${vehicle.name}"></td>
+                    <td th:text="${vehicle.brand}"></td>
+                    <td th:text="${#numbers.formatDecimal(vehicle.pricePerDay, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                    <td th:text="${vehicle.licensePlate}"></td>
+                    <td th:text="${vehicle.description}"></td>
+                    <td th:text="${#dates.format(vehicle.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#dates.format(vehicle.updatedAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                     <td class="px-2 py-1">
                         <div class="flex gap-2">
                             <a href="pages/vehicle/edit" class="edit-btn flex items-center gap-1 px-2 py-1" title="Bấm vào để xem chi tiết">
@@ -50,7 +54,6 @@
                             </form>
                         </div>
                     </td>
-
                 </tr>
 
                 </tbody>
