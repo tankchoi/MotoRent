@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AuthController {
+public class AuthMvcController {
      @GetMapping("/logon")
      public String login() {
          return "pages/login/login";

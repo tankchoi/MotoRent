@@ -1,8 +1,6 @@
 package vn.aptech.java.controllers.api;
 
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +14,7 @@ import vn.aptech.java.services.UserService;
 
 @RestController
 @RequestMapping("/api/customers")
-public class CustomerController {
+public class CustomerApiController {
     @Autowired
     private UserService userService;
 

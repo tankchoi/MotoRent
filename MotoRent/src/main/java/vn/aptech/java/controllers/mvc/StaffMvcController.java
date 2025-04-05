@@ -16,7 +16,7 @@ import vn.aptech.java.models.User;
 import vn.aptech.java.services.UserService;
 
 @Controller
-public class StaffController {
+public class StaffMvcController {
     @Autowired
     private UserService userService;
     @GetMapping("/account")

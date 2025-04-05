@@ -95,7 +95,7 @@ public class VehicleService {
 
         List<VehicleImage> images = vehicleImageRepository.findByVehicleId(id);
         for (VehicleImage image : images) {
-            fileStorageService.deleteFile(image.getUrl()); 
+            fileStorageService.deleteFile(image.getUrl());
             vehicleImageRepository.delete(image);
         }
 

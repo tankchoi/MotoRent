@@ -11,7 +11,7 @@ import vn.aptech.java.services.VehicleService;
 import org.springframework.ui.Model;
 @Controller
 @RequestMapping("/vehicles")
-public class VehicleController {
+public class VehicleMvcController {
     @Autowired
     private VehicleService vehicleService;
      @GetMapping
