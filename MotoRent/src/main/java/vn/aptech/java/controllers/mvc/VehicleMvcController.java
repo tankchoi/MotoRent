@@ -2,6 +2,7 @@ package vn.aptech.java.controllers.mvc;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -9,16 +10,20 @@ import vn.aptech.java.dtos.CreateVehicleDTO;
 import vn.aptech.java.dtos.UpdateVehicleDTO;
 import vn.aptech.java.services.VehicleService;
 import org.springframework.ui.Model;
+
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/vehicles")
 public class VehicleMvcController {
     @Autowired
     private VehicleService vehicleService;
-     @GetMapping
-     public String getAllVehicles(Model model) {
-         model.addAttribute("vehicles", vehicleService.getAllVehicles());
-         return "pages/vehicle/index";
-     }
+    @GetMapping
+    public String getAllVehicles(Model model) {
+        model.addAttribute("vehicles", vehicleService.getAllVehicles());
+        return "pages/vehicle/index";
+    }
     @GetMapping("/{id}")
     public String getVehicleById(@PathVariable Long id, Model model) {
         var vehicle = vehicleService.getVehicleById(id);
@@ -36,14 +41,16 @@ public class VehicleMvcController {
     }
 
     @PostMapping("/create")
-    public String createVehicle(@ModelAttribute("vehicle") @Valid CreateVehicleDTO dto,
-                                BindingResult result, Model model) {
+    public ResponseEntity<?> createVehicle(@Valid @ModelAttribute CreateVehicleDTO dto, BindingResult result) {
         if (result.hasErrors()) {
-            return "pages/vehicle/create";
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(errors);
         }
         vehicleService.createVehicle(dto);
-        return "redirect:/vehicles";
+        return ResponseEntity.ok().build();
     }
+
     @PostMapping("/update")
     public String updateVehicle(
             @Valid @ModelAttribute("vehicle") UpdateVehicleDTO vehicleDTO,

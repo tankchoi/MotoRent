@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.nio.file.*;
 @Service
 public class FileStorageService {
-    private String uploadDir = "src/main/resources/static/uploads";
+    private String uploadDir = "uploads";
     public String saveFile(MultipartFile file) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
 
@@ -22,18 +22,22 @@ public class FileStorageService {
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        return "/uploads/" + fileName;
+        return uploadDir + "/" + fileName;
     }
     public void deleteFile(String filePath) {
-        Path path = Paths.get(uploadDir + filePath);
         try {
-            Files.deleteIfExists(path);
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                Files.delete(path);
+            } else {
+                System.out.println("File không tồn tại tại: " + path.toString());
+            }
+
         } catch (IOException e) {
-            throw new RuntimeException("Lỗi xóa file: " + e.getMessage());
+            System.out.println("Lỗi khi xóa file: " + e.getMessage());
         }
     }
 
-
-
 }
+
+

@@ -6,6 +6,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import vn.aptech.java.listeners.AuditEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 @EntityListeners(AuditEntityListener.class)
 @Entity
@@ -25,6 +26,8 @@ public class Vehicle {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<VehicleImage> vehicleImages = new ArrayList<>();;
 
     public Vehicle() {}
 
@@ -99,4 +102,12 @@ public class Vehicle {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public List<VehicleImage> getVehicleImages() {
+        return vehicleImages;
+    }
+    public void setVehicleImages(List<VehicleImage> vehicleImages) {
+        this.vehicleImages = vehicleImages;
+    }
+
+
 }

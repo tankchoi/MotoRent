@@ -34,7 +34,7 @@ public class Rental {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RentalDetail> rentalDetails;
 
     public enum RentalStatus {

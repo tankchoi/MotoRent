@@ -21,35 +21,39 @@
         <div class="menu">
             <h4 class="heading-menu">CHUNG</h4>
             <hr style="border: 0.5px dot-dash #555555;">
-            <div class="menu-item" th:classappend="${activePage == 'home'} ? 'active'">
-                <a href="">Trang chủ</a>
+            <div class="menu-item" th:classappend="${currentUri == '/'} ? 'active'">
+                <a href="/">Trang chủ</a>
             </div>
-            <div class="menu-item" th:classappend="${activePage == 'customers'} ? 'active'">
+            <div class="menu-item" th:classappend="${currentUri.startsWith('/customers')} ? 'active'">
                 <img src="" alt="">
-                <a href="">khách hàng</a>
+                <a href="/customers">Khách hàng</a>
             </div>
-            <div class="menu-item" th:classappend="${activePage == 'rentals'} ? 'active'">
+            <div class="menu-item" th:classappend="${currentUri.startsWith('/rentals')} ? 'active'">
                 <img src="" alt="">
-                <a href="">Đơn hàng</a>
+                <a href="/rentals">Đơn hàng</a>
             </div>
-            <div class="menu-item" th:classappend="${activePage == 'vehicles'} ? 'active'">
+            <div class="menu-item" th:classappend="${currentUri.startsWith('/vehicles')} ? 'active'">
                 <img src="" alt="">
-                <a href="">Phương tiện</a>
+                <a href="/vehicles">Phương tiện</a>
             </div>
-            <h4 class="heading-menu" sec:authorize="hasRole('EMPLOYEE')" >QUẢN LÝ</h4>
+
+            <h4 class="heading-menu" sec:authorize="hasAuthority('ADMIN')">QUẢN LÝ</h4>
             <hr style="border: 1px dot-dash #555555;">
-            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')" th:classappend="${activePage == 'staffs'} ? 'active'">
+
+            <div class="menu-item" sec:authorize="hasAuthority('ADMIN')" th:classappend="${currentUri.startsWith('/staffs')} ? 'active'">
                 <img src="" alt="">
-                <a href="">Nhân viên</a>
+                <a href="/staffs">Nhân viên</a>
             </div>
-            <div class="menu-item" sec:authorize="hasRole('EMPLOYEE')" th:classappend="${activePage == 'logs'} ? 'active'">
-                <img src="" alt="">
-                <a href="">Hoạt động</a>
+
+            <div class="menu-item" sec:authorize="hasAuthority('ADMIN')" th:classappend="${currentUri.startsWith('/auditlogs')} ? 'active'">
+                <img src= "" alt= "">
+                <a href="/auditlogs">Hoạt động</a>
             </div>
+
             <hr style="border: 0.5px dot-dash #555555;">
             <div class="menu-item">
                 <img src="" alt="">
-                <a href="">Đăng xuất</a>
+                <a th:href="@{/logout}">Đăng xuất</a>
             </div>
         </div>
 

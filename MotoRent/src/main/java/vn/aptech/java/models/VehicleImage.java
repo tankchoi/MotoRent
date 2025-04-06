@@ -7,15 +7,22 @@ import vn.aptech.java.listeners.AuditEntityListener;
 @Entity
 @Table(name = "vehicle_images")
 public class VehicleImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long vehicleId;
+
     private String url;
 
-    public VehicleImage() {}
-    public VehicleImage(Long vehicleId, String url) {
-        this.vehicleId = vehicleId;
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
+
+    public VehicleImage() {
+    }
+
+    public VehicleImage(Vehicle vehicle, String url) {
+        this.vehicle = vehicle;
         this.url = url;
     }
 
@@ -23,23 +30,23 @@ public class VehicleImage {
         return id;
     }
 
-    public Long getVehicleId() {
-        return vehicleId;
-    }
-
     public String getUrl() {
         return url;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setVehicleId(Long vehicleId) {
-        this.vehicleId = vehicleId;
-    }
-
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }
