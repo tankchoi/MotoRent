@@ -5,10 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import vn.aptech.java.dtos.CustomerDTO;
-import vn.aptech.java.dtos.RegisterCustomerDTO;
-import vn.aptech.java.dtos.UpdateCusomerDTO;
-import vn.aptech.java.dtos.UpdateStaffDTO;
+import vn.aptech.java.dtos.*;
 import vn.aptech.java.models.User;
 import vn.aptech.java.repositories.UserRepository;
 import java.io.IOException;
@@ -22,6 +19,9 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private FileStorageService fileStorageService;
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -99,6 +99,63 @@ public class UserService {
         List<User> users = userRepository.findAllByRole(User.Role.CUSTOMER);
         return users.stream().map(CustomerDTO::new).toList();
     }
+    public List<StaffDTO> getAllStaffs() {
+        List<User> users = userRepository.findAllByRoleNot(User.Role.CUSTOMER);
+        return users.stream().map(StaffDTO::new).toList();
+    }
+    public void createStaff(CreateStaffDTO staffDTO) {
+        if (userRepository.findByEmail(staffDTO.getEmail()) != null) {
+            throw new IllegalArgumentException("Email đã tồn tại");
+        }
+        if (userRepository.findByPhone(staffDTO.getPhone()) != null) {
+            throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+        }
+        User user = new User();
+        user.setFullName(staffDTO.getFullName());
+        user.setEmail(staffDTO.getEmail());
+        user.setPhone(staffDTO.getPhone());
+        user.setPassword(passwordEncoder.encode(staffDTO.getPassword()));
+        user.setRole(staffDTO.getRole());
+        userRepository.save(user);
+    }
+    public void updateStaffByAdmin(UpdateStaffByAdminDTO staffDTO) {
+        User user = userRepository.findById(staffDTO.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
+
+        User existingEmailUser = userRepository.findByEmail(staffDTO.getEmail());
+        if (existingEmailUser != null && !existingEmailUser.getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Email đã tồn tại");
+        }
+
+        User existingPhoneUser = userRepository.findByPhone(staffDTO.getPhone());
+        if (existingPhoneUser != null && !existingPhoneUser.getId().equals(user.getId())) {
+            throw new IllegalArgumentException("Số điện thoại đã tồn tại");
+        }
+        user.setEmail(staffDTO.getEmail());
+        user.setFullName(staffDTO.getFullName());
+        user.setPhone(staffDTO.getPhone());
+        user.setRole(staffDTO.getRole());
+
+        if (staffDTO.getPassword() != null && !staffDTO.getPassword().isBlank()) {
+            if (staffDTO.getPassword().length() < 6) {
+                throw new IllegalArgumentException("Mật khẩu phải có ít nhất 6 ký tự");
+            }
+            user.setPassword(passwordEncoder.encode(staffDTO.getPassword()));
+        }
+
+        userRepository.save(user);
+    }
+    public void deleteStaff(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
+
+        if (user.getRole() == User.Role.CUSTOMER) {
+            throw new IllegalArgumentException("Không thể xóa người dùng có vai trò CUSTOMER");
+        }
+
+        userRepository.delete(user);
+    }
+
 
 
 

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.aptech.java.dtos.CreateVehicleDTO;
 import vn.aptech.java.dtos.UpdateVehicleDTO;
 import vn.aptech.java.services.VehicleService;
@@ -65,8 +66,9 @@ public class VehicleMvcController {
         return "redirect:/vehicles";
     }
     @PostMapping("/delete/{id}")
-    public String deleteVehicle(@PathVariable Long id) {
+    public String deleteVehicle(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         vehicleService.deleteVehicle(id);
+        redirectAttributes.addFlashAttribute("success", "Xóa xe thành công.");
         return "redirect:/vehicles";
     }
 

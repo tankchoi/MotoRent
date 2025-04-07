@@ -13,8 +13,11 @@
     <div th:insert="fragments/nav-side :: nav-side"></div>
     <div class="page-container">
         <h2 class="heading-page">Quản lý nhân viên</h2>
+        <div th:if="${success}" class="bg-green-500 text-white p-4 rounded-md mb-4">
+            <p th:text="${success}"></p>
+        </div>
         <div class="add-btn">
-            <a href="/vehicle/add">Tạo tài khoản mới</a>
+            <a href="/staffs/create">Tạo tài khoản mới</a>
         </div>
         <div class="table-container">
             <table id="myTable" class="display">
@@ -25,34 +28,41 @@
                     <th>Email</th>
                     <th>Số điện thoại</th>
                     <th>Vai trò</th>
-                    <th></th>
+                    <th>Tạo lúc</th>
+                    <th>Sửa lúc</th>
+                    <th>Hành động</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Nguyễn Văn A</td>
-                    <td>nva@gmail.com</td>
-                    <td>01234567</td>
-                    <td>Nhân viên</td>
+                <tr th:each="staff : ${staffs}">
+                    <td th:text="${staff.id}"></td>
+                    <td th:text="${staff.fullName}"></td>
+                    <td th:text="${staff.email}"></td>
+                    <td th:text="${staff.phone}"></td>
+                    <td th:text="${staff.role == 'STAFF' ? 'Nhân viên' : 'Quản lý'}"></td>
+                    <td th:text="${#temporals.format(staff.createdAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td th:text="${#temporals.format(staff.updatedAt, 'dd/MM/yyyy HH:mm:ss')}"></td>
                     <td class="px-2 py-1">
                         <div class="flex gap-2">
-                            <a href="vehicle/edit" class="edit-btn flex items-center gap-1 px-2 py-1" title="Bấm vào để xem chi tiết">
+                            <a th:href="@{'/staffs/' + ${staff.id}}" class="edit-btn flex items-center gap-1 px-2 py-1"
+                               title="Bấm vào để xem chi tiết">
                                 Chi tiết
                                 <img th:src="@{/assets/images/icons8-edit-16.png}" alt="" class="w-4 h-4 inline-block" />
                             </a>
-                            <form action="" class="delete-btn flex items-center justify-center px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600">
-                                <button class="flex item-center justify-center">
-                                    Khóa <img th:src="@{/assets/images/icons8-trash-16.png}" alt="">
+                            <form th:action="@{'/staffs/delete/' + ${staff.id}}" method="post"
+                                  class="delete-btn flex items-center justify-center px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                                  onsubmit="return confirm('Bạn có chắc muốn xóa nhân viên này?');">
+                                <button type="submit" class="flex items-center justify-center gap-1">
+                                    Xóa
+                                    <img th:src="@{/assets/images/icons8-trash-16.png}" alt="" />
                                 </button>
                             </form>
                         </div>
                     </td>
-
                 </tr>
-
                 </tbody>
             </table>
+
 
 
         </div>

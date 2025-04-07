@@ -17,14 +17,19 @@
         <a href="/vehicles">Quay lại</a>
         <h2 class="heading-page">Thông tin phương tiện</h2>
         <p class="item-id"></p>
-        <form id="vehicleForm" enctype="multipart/form-data" class="dropzone" th:object="${vehicle}" method="POST" action="/vehicles/create">
+        <form id="vehicleForm" enctype="multipart/form-data" class="dropzone" th:object="${vehicle}" method="POST" action="/vehicles/update">
+
+
             <div class="grid grid-cols-12 gap-4 mt-4">
                 <div class="col-span-12">
-                    <h2 class="text-xl font-bold mb-4">Thêm ảnh</h2>
+                    <h2 class="text-xl font-bold mb-4">Ảnh mới</h2>
+                    <div class="dz-default dz-message">
+                        <button class="dz-button" type="button">Kéo và thả ảnh vào đây hoặc nhấn để chọn</button>
+                    </div>
                     <div class="mb-4">
                         <!-- Dropzone Preview Container -->
                         <div class="dropzone-previews">
-                            <div id="dropzone-preview" class="dropzone-previews"></div>
+                            <div id="dropzone-preview" class="dropzone-previews mt-6 overflow-x-auto flex space-x-4 pb-4" ></div>
                         </div>
                     </div>
                     <div id="imageCount" class="text-gray-500 mb-4 italic">Chưa có ảnh nào</div>

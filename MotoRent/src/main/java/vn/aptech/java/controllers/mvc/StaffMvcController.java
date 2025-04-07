@@ -2,41 +2,90 @@ package vn.aptech.java.controllers.mvc;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import vn.aptech.java.dtos.StaffDTO;
-import vn.aptech.java.dtos.UpdateStaffDTO;
-import vn.aptech.java.models.User;
+import vn.aptech.java.dtos.CreateStaffDTO;
+import vn.aptech.java.dtos.UpdateStaffByAdminDTO;
 import vn.aptech.java.services.UserService;
 
 @Controller
+@RequestMapping("/staffs")
 public class StaffMvcController {
     @Autowired
     private UserService userService;
-    @GetMapping("/account")
-    public String getAccount(Model model) {
-        String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User staff = userService.findByEmail(currentEmail);
-        model.addAttribute("staff", new StaffDTO(staff));
-        return "pages/account/account";
+    @GetMapping
+    public String getAllStaffs(Model model) {
+        model.addAttribute("staffs", userService.getAllStaffs());
+        return "pages/staff/index";
     }
-    @PostMapping("/account/update")
-    public String updateAccount(@Valid @ModelAttribute UpdateStaffDTO staffDTO,
-                                BindingResult bindingResult,
-                                RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("error", "Thông tin không hợp lệ!");
-            return "pages/account/account";
+    @GetMapping("/{id}")
+    public String getStaffById(@PathVariable Long id, Model model) {
+        var staff = userService.getUserById(id);
+        if (staff == null) {
+            return "redirect:/staffs";
         }
-        userService.updateStaff(staffDTO);
-        redirectAttributes.addFlashAttribute("success", "Cập nhật tài khoản thành công!");
-        return "redirect:/account";
+        model.addAttribute("staff", staff);
+        return "pages/staff/update";
     }
+    @GetMapping("/create")
+    public String createStaff(Model model) {
+        model.addAttribute("staff", new CreateStaffDTO());
+        return "pages/staff/create";
+    }
+    @PostMapping("/create")
+    public String createStaff(
+            @Valid @ModelAttribute("staff") CreateStaffDTO staffDTO,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
 
+        if (bindingResult.hasErrors()) {
+            return "pages/staff/create";
+        }
+
+        try {
+            userService.createStaff(staffDTO);
+            redirectAttributes.addFlashAttribute("success", "Tạo nhân viên thành công.");
+            return "redirect:/staffs";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("staff", staffDTO);
+            return "pages/staff/create";
+        }
+    }
+    @PostMapping("/update")
+    public String updateStaffByAdmin(
+            @Valid @ModelAttribute("staff") UpdateStaffByAdminDTO staffDTO,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "pages/staff/update";
+        }
+
+        try {
+            userService.updateStaffByAdmin(staffDTO);
+            redirectAttributes.addFlashAttribute("success", "Cập nhật nhân viên thành công.");
+            return "redirect:/staffs";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("staff", staffDTO);
+            return "pages/staff/update";
+        }
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteStaff(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            userService.deleteStaff(id);
+            redirectAttributes.addFlashAttribute("success", "Xóa nhân viên thành công.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/staffs";
+
+    }
 }

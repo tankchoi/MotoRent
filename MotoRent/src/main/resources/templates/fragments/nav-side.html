@@ -12,7 +12,7 @@
             <a href="/profile">
                 <div class="profile-content">
                     <p class="logo-profile">A</p>
-                    <p>Admin</p>
+                    <p th:text="${#authentication.name}"></p>
                 </div>
             </a>
         </div>
@@ -46,12 +46,7 @@
                 <img src="" alt="">
                 <a href="/staffs">Nhân viên</a>
             </div>
-
-            <div class="menu-item" sec:authorize="hasAuthority('ADMIN')" th:classappend="${currentUri.startsWith('/auditlogs')} ? 'active'">
-                <img src= "" alt= "">
-                <a href="/auditlogs">Hoạt động</a>
-            </div>
-
+            
             <hr style="border: 0.5px dot-dash #555555;">
             <div class="menu-item">
                 <img src="" alt="">
