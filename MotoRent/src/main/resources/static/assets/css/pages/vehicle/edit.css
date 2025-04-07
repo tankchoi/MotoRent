@@ -1,12 +1,11 @@
-
 .main-container{
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 .page-container{
     padding: 20px;
     flex-grow: 1;
-
+    background-image: url('/static/assets/images/section-background.png');
 }
 .heading-page{
     font-size: 48px;
@@ -32,6 +31,7 @@
     margin-top: 20px;
     padding: 8px 20px;
     background: forestgreen;
+    border: 2px solid forestgreen;
     border-radius: 15px;
     color: #ffffff;
     font-weight: 600;

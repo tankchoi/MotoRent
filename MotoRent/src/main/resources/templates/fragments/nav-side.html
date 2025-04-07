@@ -9,10 +9,12 @@
 <body>
     <div th:fragment="nav-side" class="nav-bar">
         <div class="profile-contain">
-            <div class="profile-content">
-                <p class="logo-profile">A</p>
-                <p>Admin</p>
-            </div>
+            <a href="/profile">
+                <div class="profile-content">
+                    <p class="logo-profile">A</p>
+                    <p>Admin</p>
+                </div>
+            </a>
         </div>
         <div class="search-container">
             <img th:src="@{/assets/images/icon-search.png}" alt="">

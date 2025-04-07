@@ -21,22 +21,30 @@
             <input type="hidden" th:field="*{id}" />
 
             <!-- Hiển thị ảnh cũ -->
-            <div class="existing-images">
+            <div class="existing-images mb-8">
                 <h3 class="text-xl font-bold mb-4">Ảnh cũ</h3>
-                <div class="grid grid-cols-3 gap-4">
-                    <!-- Hiển thị ảnh cũ từ danh sách vehicle.images -->
-                    <div th:each="image : ${vehicle.vehicleImages}" class="relative">
-                        <img th:src="'http://localhost:8080/' + ${image.url}" alt="Ảnh cũ" class="w-full h-auto rounded-md"/>
+                <div class="relative overflow-hidden">
+                    <div id="imageSlider" class="flex space-x-4 overflow-x-auto scroll-auto snap-x flex-wrap">
+                        <!-- Ảnh trong slide -->
+                        <div th:each="image : ${vehicle.vehicleImages}" class="flex-shrink-0 w-64 snap-start scroll-ml-6 ">
+                            <img th:src="'http://localhost:8080/' + ${image.url}"
+                                 alt="Ảnh cũ"
+                                 class="w-full h-60 my-2 object-cover rounded-md shadow-md"/>
+                        </div>
                     </div>
                 </div>
             </div>
+
             <div class="grid grid-cols-12 gap-4 mt-4">
                 <div class="col-span-12">
-                    <h2 class="text-xl font-bold mb-4">Thêm ảnh</h2>
+                    <h2 class="text-xl font-bold mb-4">Ảnh mới</h2>
+                    <div class="dz-default dz-message">
+                        <button class="dz-button" type="button">Kéo và thả ảnh vào đây hoặc nhấn để chọn</button>
+                    </div>
                     <div class="mb-4">
                         <!-- Dropzone Preview Container -->
                         <div class="dropzone-previews">
-                            <div id="dropzone-preview" class="dropzone-previews"></div>
+                            <div id="dropzone-preview" class="dropzone-previews mt-6 overflow-x-auto flex space-x-4 pb-4" ></div>
                         </div>
                     </div>
                     <div id="imageCount" class="text-gray-500 mb-4 italic">Chưa có ảnh nào</div>
@@ -106,7 +114,7 @@
     Dropzone.autoDiscover = false;
 
     const myDropzone = new Dropzone("#vehicleForm", {
-        maxFilesize: 2,  // Kích thước tối đa của mỗi file
+        maxFilesize: 4,  // Kích thước tối đa của mỗi file
         acceptedFiles: "image/*",  // Chỉ chấp nhận file ảnh
         addRemoveLinks: true,
         dictDefaultMessage: "Kéo và thả ảnh vào đây hoặc nhấn để chọn",
