@@ -75,6 +75,10 @@
                                         th:selected="${rental.status.name() == 'COMPLETED'}">
                                     Hoàn thành
                                 </option>
+                                <option th:value="CANCELLED"
+                                        th:selected="${rental.status.name() == 'CANCELLED'}">
+                                    Đã hủy
+                                </option>
                             </select>
                         </div>
 

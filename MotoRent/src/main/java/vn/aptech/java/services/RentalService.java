@@ -4,26 +4,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import vn.aptech.java.dtos.CreateRentalDTO;
 import vn.aptech.java.models.Rental;
+import vn.aptech.java.models.RentalDetail;
 import vn.aptech.java.models.User;
+import vn.aptech.java.models.Vehicle;
 import vn.aptech.java.repositories.NotificationRepository;
 import vn.aptech.java.repositories.RentalRepository;
 import vn.aptech.java.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RentalService {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
     private RentalRepository rentalRepository;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private VehicleService vehicleService;
+
     public List<Rental> getRentalsByLoggedInCustomer() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
-        User user = userRepository.findByEmail(currentUsername);
+        User user = userService.findByEmail(currentUsername);
         if (user == null) {
             throw new IllegalArgumentException("Người dùng không tồn tại");
         }
@@ -71,5 +78,44 @@ public class RentalService {
 
         rentalRepository.save(rental);
     }
+    public Rental createRental(CreateRentalDTO dto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        User user = userService.findByEmail(currentUsername);
+        if (user == null) {
+            throw new IllegalArgumentException("Người dùng không tồn tại");
+        }
+
+        Rental rental = new Rental();
+        rental.setUser(user);
+        rental.setStartTime(dto.getStartTime());
+        rental.setEndTime(dto.getEndTime());
+        rental.setTotalPrice(dto.getTotalPrice());
+        rental.setAmountPaid(dto.getAmountPaid());
+        rental.setPaymentMethod(dto.getPaymentMethod());
+        rental.setStatus(Rental.RentalStatus.UNPAID);
+
+        List<Vehicle> vehicles = vehicleService.findAllById(dto.getVehicleIds());
+        if (vehicles.size() != dto.getVehicleIds().size()) {
+            throw new IllegalArgumentException("Một hoặc nhiều xe không tồn tại");
+        }
+
+        List<RentalDetail> rentalDetails = new ArrayList<>();
+        for (Vehicle vehicle : vehicles) {
+            RentalDetail detail = new RentalDetail();
+            detail.setRental(rental);
+            detail.setVehicleName(vehicle.getName());
+            detail.setVehicleBrand(vehicle.getBrand());
+            detail.setLicensePlate(vehicle.getLicensePlate());
+            detail.setPricePerDay(vehicle.getPricePerDay());
+            rentalDetails.add(detail);
+        }
+
+        rental.setRentalDetails(rentalDetails);
+        return rentalRepository.save(rental);
+    }
+
+
+
 
 }

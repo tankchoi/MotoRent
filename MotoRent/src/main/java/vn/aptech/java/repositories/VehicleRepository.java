@@ -12,11 +12,11 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query(value = """
     SELECT v.* FROM vehicles v
     WHERE NOT EXISTS (
-        SELECT 1 FROM rental_details rd 
-        JOIN rentals r ON rd.rental_id = r.id 
-        WHERE rd.vehicle_id = v.id 
+        SELECT 1 FROM rental_details rd
+        JOIN rentals r ON rd.rental_id = r.id
+        WHERE rd.license_plate = v.license_plate
         AND (:startTime < r.end_time AND :endTime > r.start_time)
-        AND r.status <> 'COMPLETED' 
+        AND r.status <> 'COMPLETED'
     )
 """, nativeQuery = true)
     List<Vehicle> findAvailableVehicles(@Param("startTime") LocalDateTime startTime,

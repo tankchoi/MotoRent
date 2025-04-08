@@ -38,8 +38,13 @@ public class Rental {
     private List<RentalDetail> rentalDetails;
 
     public enum RentalStatus {
-        PENDING, RENTED, COMPLETED , CANCELLED
+        UNPAID,     // Đơn vừa tạo, chờ thanh toán
+        PENDING,    // Đã thanh toán, chờ lấy xe
+        RENTED,     // Đang thuê
+        COMPLETED,  // Đã trả xe
+        CANCELLED   // Đơn bị hủy
     }
+
 
     public Rental() {}
     public Rental(User user, double totalPrice, double amountPaid, LocalDateTime startTime, LocalDateTime endTime, RentalStatus status, String paymentMethod) {

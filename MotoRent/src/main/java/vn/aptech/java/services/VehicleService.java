@@ -107,5 +107,9 @@ public class VehicleService {
         vehicleRepository.delete(vehicle);
     }
 
+    public List<Vehicle> findAllById(List<Long> ids) {
+        return vehicleRepository.findAllById(ids);
+    }
+
 
 }
