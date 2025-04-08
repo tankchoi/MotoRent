@@ -13,37 +13,68 @@
     <div th:insert="fragments/nav-side :: nav-side"></div>
     <div class="page-container">
         <h2 class="heading-page">Quản lý đơn hàng</h2>
+
         <div class="table-container">
             <table id="myTable" class="display">
                 <thead>
                 <tr>
                     <th>Mã</th>
-                    <th>Mã đơn</th>
-                    <th>Mã phương tiện</th>
-                    <th>Thời gian mượn</th>
-                    <th>Thời gian trả</th>
+                    <th>Khách hàng</th>
+                    <th>Đã trả</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày mượn</th>
+                    <th>Ngày trả</th>
+                    <th>Trạng thái</th>
+                    <th>Tạo lúc</th>
+                    <th>Sửa lúc</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>#1223</td>
-                    <td>12B4</td>
-                    <td>24/01/2025</td>
-                    <td>27/01/2025</td>
+                <tr th:each="rental : ${rentals}">
+                    <td th:text="${rental.id}">1</td>
+                    <td th:text="${rental.user.fullName}">Nguyễn Văn A</td>
+                    <td th:text="${#numbers.formatDecimal(rental.amountPaid, 0, 'COMMA', 0, 'POINT')} + 'đ'">500,000đ
+                    </td>
+                    <td th:text="${#numbers.formatDecimal(rental.totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                        1,200,000đ
+                    </td>
+                    <td th:text="${#temporals.format(rental.startTime, 'dd/MM/yyyy')}">24/01/2025</td>
+                    <td th:text="${#temporals.format(rental.endTime, 'dd/MM/yyyy')}">27/01/2025</td>
+                    <td>
+    <span th:if="${rental.status.name() == 'PENDING'}"
+          class="px-2 py-1 text-yellow-800 bg-yellow-100 rounded-full text-sm font-medium">
+        Chờ lấy
+    </span>
+                        <span th:if="${rental.status.name() == 'RENTED'}"
+                              class="px-2 py-1 text-blue-800 bg-blue-100 rounded-full text-sm font-medium">
+        Đang thuê
+    </span>
+                        <span th:if="${rental.status.name() == 'COMPLETED'}"
+                              class="px-2 py-1 text-green-800 bg-green-100 rounded-full text-sm font-medium">
+        Hoàn thành
+    </span>
+                        <span th:if="${rental.status.name() == 'CANCELLED'}"
+                              class="px-2 py-1 text-red-800 bg-red-100 rounded-full text-sm font-medium">
+        Đã hủy
+    </span>
+                    </td>
+
+
+                    <td th:text="${#temporals.format(rental.createdAt, 'dd/MM/yyyy HH:mm')}">01/04/2025</td>
+                    <td th:text="${#temporals.format(rental.updatedAt, 'dd/MM/yyyy HH:mm')}">02/04/2025</td>
                     <td class="px-2 py-1">
                         <div class="flex gap-2">
-                            <a href="#" class="edit-btn flex items-center gap-1 px-2 py-1" title="Bấm vào để xem chi tiết">
+                            <a th:href="@{'/rentals/' + ${rental.id}}"
+                               class="edit-btn flex items-center gap-1 px-2 py-1" title="Bấm vào để xem chi tiết">
                                 Chi tiết
-                                <img th:src="@{/assets/images/icons8-edit-16.png}" alt="" class="w-4 h-4 inline-block" />
+                                <img th:src="@{/assets/images/icons8-edit-16.png}" alt="" class="w-4 h-4 inline-block"/>
                             </a>
                         </div>
                     </td>
-
                 </tr>
-
                 </tbody>
+
             </table>
 
 
@@ -53,7 +84,6 @@
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
-
 
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

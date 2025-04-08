@@ -14,7 +14,7 @@
 <div class="main-container">
     <div th:insert="fragments/nav-side :: nav-side"></div>
     <div class="page-container">
-        <a href="/vehicles">Quay lại</a>
+        <a href="/vehicles" class="text-blue-600 hover:underline text-sm inline-block mb-4">Quay lại</a>
         <h2 class="heading-page">Sửa thông tin phương tiện</h2>
         <p >Lưu ý : Tải ảnh mới lên , tất cả ảnh cũ sẽ bị thay thế</p>
         <form id="vehicleForm" enctype="multipart/form-data" class="dropzone" th:object="${vehicle}" method="POST" action="/vehicles/update">

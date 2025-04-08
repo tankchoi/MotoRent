@@ -13,67 +13,146 @@
     <div th:insert="fragments/nav-side :: nav-side"></div>
 
     <div class="page-container">
+        <a href="/rentals" class="text-blue-600 hover:underline text-sm inline-block mb-4">← Quay lại</a>
+        <div th:if="${success}" class="bg-green-500 text-white p-4 rounded-md mb-4">
+            <p th:text="${success}"></p>
+        </div>
+        <h2 class="text-2xl font-semibold mb-4">Thông tin Đơn hàng</h2>
 
-        <a href="/rental">Quay lại</a>
-        <h2 class="heading-page">Thông tin Đơn hàng</h2>
-            <div class="grid grid-cols-12 gap-4 mt-4">
-                <div class="col-span-8">
-                    <h2 class="heading-history">Lịch sử đặt xe</h2>
-                    <div class="table-container">
-                        <table id="myTable" class="display">
-                            <thead>
-                            <tr>
-                                <th>Mã</th>
-                                <th>Mã đơn</th>
-                                <th>Mã phương tiện</th>
-                                <th>Thời gian mượn</th>
-                                <th>Thời gian trả</th>
-                                <th>Tổng tiền</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>#1223</td>
-                                <td>12B4</td>
-                                <td>24/01/2025</td>
-                                <td>27/01/2025</td>
-                                <td>2451</td>
-                            </tr>
+        <div class="grid grid-cols-12 gap-6">
+            <!-- Thông tin đơn thuê -->
+            <div class="col-span-8">
+                <h3 class="text-lg font-semibold mb-2 border-b pb-2">Thông tin đơn thuê</h3>
 
-                            </tbody>
-                        </table>
+                <div class="grid grid-cols-12 gap-4">
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium mb-1">Mã đơn</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100" th:value="${rental.id}" readonly />
                     </div>
-                </div>
-                <div class="col-span-4">
-                    <h2 class="heading-history">Thông tin khách hàng</h2>
-                    <div class="input-contain">
-                        <label for="userID" class="block mb-1 font-medium">Mã Khách hàng</label>
-                        <input type="text" id="userID" name="id" class="w-full border border-gray-300 rounded-md p-2" readonly />
+
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium mb-1">Thời gian mượn</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100"
+                               th:value="${#temporals.format(rental.startTime, 'dd/MM/yyyy')}" readonly />
                     </div>
-                    <div class="input-contain">
-                        <label for="fullName" class="block mb-1 font-medium">Tên Khách hàng</label>
-                        <input type="text" id="fullName" name="fullName" class="w-full border border-gray-300 rounded-md p-2"  readonly />
+
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium mb-1">Thời gian trả</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100"
+                               th:value="${#temporals.format(rental.endTime, 'dd/MM/yyyy')}" readonly />
                     </div>
-                    <div class="input-contain">
-                        <label for="email" class="block mb-1 font-medium">Email</label>
-                        <input type="email" id="email" name="email" class="w-full border border-gray-300 rounded-md p-2"  readonly />
+
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium mb-1">Tổng tiền</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100"
+                               th:value="${#numbers.formatDecimal(rental.totalPrice, 0, 'COMMA', 0, 'POINT')} + 'đ'" readonly />
                     </div>
-                    <div class="input-contain">
-                        <label for="phone" class="block mb-1 font-medium">Số điện thoại</label>
-                        <input type="text" id="phone" name="phone" class="w-full border border-gray-300 rounded-md p-2" readonly />
-                    </div>
-                    <div class="input-contain">
-                        <label for="identityCard" class="block mb-1 font-medium">Căn cước công dân</label>
-                        <input type="text" id="identityCard" name="identityCard" class="w-full border border-gray-300 rounded-md p-2" readonly />
-                    </div>
-                    <div class="input-contain">
-                        <label for="driverLicense" class="block mb-1 font-medium">Bằng lái xe</label>
-                        <input type="text" id="driverLicense" name="driverLicense" class="w-full border border-gray-300 rounded-md p-2" readonly />
+
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium mb-1">Đã thanh toán</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100"
+                               th:value="${#numbers.formatDecimal(rental.amountPaid, 0, 'COMMA', 0, 'POINT')} + 'đ'" readonly />
                     </div>
                 </div>
 
+                <!-- Form cập nhật trạng thái -->
+                <form th:action="@{/rentals/update-status}" method="POST" class="mt-6">
+                    <input type="hidden" name="id" th:value="${rental.id}" />
+
+                    <div class="grid grid-cols-12 gap-4 items-end">
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium mb-1">Trạng thái</label>
+                            <select name="status" class="w-full border border-gray-300 rounded-lg p-2">
+                                <option th:value="PENDING"
+                                        th:selected="${rental.status.name() == 'PENDING'}">
+                                    Chờ lấy
+                                </option>
+                                <option th:value="RENTED"
+                                        th:selected="${rental.status.name() == 'RENTED'}">
+                                    Đang thuê
+                                </option>
+                                <option th:value="COMPLETED"
+                                        th:selected="${rental.status.name() == 'COMPLETED'}">
+                                    Hoàn thành
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-span-6">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+                                Cập nhật
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
+
+            <!-- Thông tin khách hàng -->
+            <div class="col-span-4">
+                <h3 class="text-lg font-semibold mb-2 border-b pb-2">Thông tin khách hàng</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Mã Khách hàng</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100" th:value="${rental.user.id}" readonly />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Tên Khách hàng</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100" th:value="${rental.user.fullName}" readonly />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Email</label>
+                        <input type="email" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100" th:value="${rental.user.email}" readonly />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Số điện thoại</label>
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2 bg-gray-100" th:value="${rental.user.phone}" readonly />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Căn cước công dân</label>
+                        <img class="w-full max-w-xs rounded border" th:src="@{'http://localhost:8080/' + ${rental.user.identityCard}}" alt="Ảnh CCCD" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Bằng lái xe</label>
+                        <img class="w-full max-w-xs rounded border" th:src="@{'http://localhost:8080/' + ${rental.user.driverLicense}}" alt="Ảnh GPLX" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chi tiết đơn thuê -->
+            <div class="col-span-12 mt-8">
+                <h3 class="text-lg font-semibold mb-2 border-b pb-2">Chi tiết đơn thuê</h3>
+                <div class="table-container overflow-x-auto">
+                    <table id="myTable" class="display w-full">
+                        <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Hãng</th>
+                            <th>Giá thuê</th>
+                            <th>Biển số</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="detail : ${rental.rentalDetails}">
+                            <td th:text="${detail.vehicleName}"></td>
+                            <td th:text="${detail.vehicleBrand}"></td>
+                            <td th:text="${#numbers.formatDecimal(detail.pricePerDay, 0, 'COMMA', 0, 'POINT')} + 'đ'"></td>
+                            <td th:text="${detail.licensePlate}"></td>
+                            <td th:text="${#numbers.formatDecimal(detail.pricePerDay * T(java.time.temporal.ChronoUnit).DAYS.between(rental.startTime, rental.endTime), 0, 'COMMA', 0, 'POINT')} + 'đ'">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 

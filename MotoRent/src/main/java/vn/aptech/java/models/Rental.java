@@ -38,7 +38,7 @@ public class Rental {
     private List<RentalDetail> rentalDetails;
 
     public enum RentalStatus {
-        PENDING, RENTED, COMPLETED
+        PENDING, RENTED, COMPLETED , CANCELLED
     }
 
     public Rental() {}

@@ -26,8 +26,6 @@ public class DataSeeder implements CommandLineRunner {
             admin.setEmail("admin@example.com");
             admin.setPhone("0123456789");
             admin.setPassword(passwordEncoder.encode("admin123"));
-            admin.setIdentityCard("/images/admin.png");
-            admin.setDriverLicense("/images/admin_license.png");
             admin.setRole(User.Role.ADMIN);
             userRepository.save(admin);
             System.out.println("✅ Admin user created!");
@@ -40,8 +38,6 @@ public class DataSeeder implements CommandLineRunner {
             staff.setEmail("staff@example.com");
             staff.setPhone("0112233445");
             staff.setPassword(passwordEncoder.encode("staff123"));
-            staff.setIdentityCard("/images/staff.png");
-            staff.setDriverLicense("/images/staff_license.png");
             staff.setRole(User.Role.STAFF);
             userRepository.save(staff);
             System.out.println("✅ Staff user created!");
@@ -54,8 +50,8 @@ public class DataSeeder implements CommandLineRunner {
             customer.setEmail("customer@example.com");
             customer.setPhone("0987654321");
             customer.setPassword(passwordEncoder.encode("customer123"));
-            customer.setIdentityCard("/images/customer.png");
-            customer.setDriverLicense("/images/customer_license.png");
+            customer.setIdentityCard("uploads/img.png");
+            customer.setDriverLicense("uploads/img.png");
             customer.setRole(User.Role.CUSTOMER);
             userRepository.save(customer);
             System.out.println("✅ Customer account created!");

@@ -15,14 +15,26 @@ public class RentalDetail {
     @JoinColumn(name = "rental_id", nullable = false)
     private Rental rental;
 
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id", nullable = false)
-    private Vehicle vehicle;
+    @Column(name = "vehicle_name")
+    private String vehicleName;
+
+    @Column(name = "vehicle_brand")
+    private String vehicleBrand;
+
+    @Column(name = "license_plate")
+    private String licensePlate;
+
+    @Column(name = "price_per_day")
+    private double pricePerDay;
 
     public RentalDetail() {}
-    public RentalDetail(Rental rental, Vehicle vehicle) {
+
+    public RentalDetail(Rental rental, String vehicleName, String vehicleBrand, String licensePlate, double pricePerDay) {
         this.rental = rental;
-        this.vehicle = vehicle;
+        this.vehicleName = vehicleName;
+        this.vehicleBrand = vehicleBrand;
+        this.licensePlate = licensePlate;
+        this.pricePerDay = pricePerDay;
     }
 
     public Long getId() {
@@ -33,8 +45,20 @@ public class RentalDetail {
         return rental;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
+    public String getVehicleName() {
+        return vehicleName;
+    }
+
+    public String getVehicleBrand() {
+        return vehicleBrand;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public double getPricePerDay() {
+        return pricePerDay;
     }
 
     public void setId(Long id) {
@@ -45,7 +69,19 @@ public class RentalDetail {
         this.rental = rental;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
+    }
+
+    public void setVehicleBrand(String vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public void setPricePerDay(double pricePerDay) {
+        this.pricePerDay = pricePerDay;
     }
 }
