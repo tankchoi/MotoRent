@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Moto Rent App</string>
+    <string name="app_name">Moto Rent Mobile App</string>
+    <string name="moto_rent">MOTO RENT</string>
+    <string name="thu_xe">Thuê xe</string>
+    <string name="name_vehicle">Tên xe</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
