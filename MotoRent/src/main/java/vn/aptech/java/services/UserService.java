@@ -19,6 +19,13 @@ public class UserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private FileStorageService fileStorageService;
+    public boolean loginCustomer(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user == null || user.getRole() != User.Role.CUSTOMER) {
+            return false;
+        }
+        return passwordEncoder.matches(password, user.getPassword());
+    }
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }

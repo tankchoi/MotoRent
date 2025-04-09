@@ -12,12 +12,35 @@ import vn.aptech.java.dtos.UpdateCusomerDTO;
 import vn.aptech.java.models.User;
 import vn.aptech.java.services.UserService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerApiController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        String email = payload.get("email");
+        String password = payload.get("password");
+        try {
+            if (userService.loginCustomer(email, password)) {
+                return ResponseEntity.ok("Đăng nhập thành công");
+            } else {
+                return ResponseEntity.badRequest().body("Đăng nhập thất bại");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Lỗi khi đăng nhập");
+        }
+    }
     @PostMapping("/register")
     public ResponseEntity<String> registerCustomer(@ModelAttribute @Valid RegisterCustomerDTO customerDto) {
         try {

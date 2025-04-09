@@ -27,7 +27,7 @@ public class ApiSecurityConfig {
                 .securityMatcher("/api/**") // Chỉ áp dụng cho API
                 .csrf(csrf -> csrf.disable()) // Tắt CSRF cho API
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/customers/register", "/api/vehicles/**","/api/payment/vnpay/return").permitAll()
+                        .requestMatchers("/api/customers/register", "/api/vehicles/**","/api/payment/vnpay/return","/api/customers/login").permitAll()
                         .anyRequest().hasAuthority("CUSTOMER") // Cần quyền CUSTOMER
                 )
                 .httpBasic(withDefaults()) // Dùng Basic Auth cho API
