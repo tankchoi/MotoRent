@@ -2,6 +2,7 @@ package vn.aptech.java.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import vn.aptech.java.dtos.CreateVehicleDTO;
 import vn.aptech.java.dtos.UpdateVehicleDTO;
@@ -26,6 +27,11 @@ public class VehicleService {
     public List<Vehicle> getAvailableVehicles(LocalDateTime startTime, LocalDateTime endTime) {
         return vehicleRepository.findAvailableVehicles(startTime, endTime);
     }
+
+    public List<Vehicle> getUnavailableVehicles(LocalDateTime startTime, LocalDateTime endTime) {
+        return vehicleRepository.findUnavailableVehicles(startTime, endTime);
+    }
+
 
     public List<Vehicle> getAllVehicles() {
         return vehicleRepository.findAll();
@@ -110,6 +116,9 @@ public class VehicleService {
     public List<Vehicle> findAllById(List<Long> ids) {
         return vehicleRepository.findAllById(ids);
     }
-
+    @Transactional(readOnly = true)
+    public List<Vehicle> lockVehiclesByIds(List<Long> vehicleIds) {
+        return vehicleRepository.findAllByIdWithLock(vehicleIds);
+    }
 
 }

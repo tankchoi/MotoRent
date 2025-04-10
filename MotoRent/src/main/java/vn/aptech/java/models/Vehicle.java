@@ -1,5 +1,6 @@
 package vn.aptech.java.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,6 +28,7 @@ public class Vehicle {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<VehicleImage> vehicleImages = new ArrayList<>();;
 
     public Vehicle() {}

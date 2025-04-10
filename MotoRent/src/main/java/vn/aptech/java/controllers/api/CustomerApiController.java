@@ -22,11 +22,6 @@ public class CustomerApiController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> payload) {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         String email = payload.get("email");
         String password = payload.get("password");
         try {

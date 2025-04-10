@@ -1,5 +1,6 @@
 package vn.aptech.java.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import vn.aptech.java.listeners.AuditEntityListener;
 
@@ -16,6 +17,7 @@ public class VehicleImage {
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
+    @JsonBackReference
     private Vehicle vehicle;
 
     public VehicleImage() {
