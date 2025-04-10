@@ -1,6 +1,7 @@
 package vn.aptech.java.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import vn.aptech.java.repositories.RentalDetailRepository;
 import vn.aptech.java.repositories.RentalRepository;
 import vn.aptech.java.repositories.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -138,6 +140,16 @@ public class RentalService {
     public void deleteRental(Long id) {
         rentalDetailRepository.deleteDetailsByRentalId(id);
         rentalRepository.deleteByRentalId(id);
+    }
+    @Scheduled(fixedRate = 5 * 60 * 1000)
+    @Transactional
+    public void autoCancelUnpaidRentals() {
+        LocalDateTime timeoutThreshold = LocalDateTime.now().minusMinutes(15);
+        List<Rental> expiredUnpaid = rentalRepository.findByStatusAndCreatedAtBefore(Rental.RentalStatus.UNPAID, timeoutThreshold);
+        for (Rental rental : expiredUnpaid) {
+            deleteRental(rental.getId());
+            System.out.println("Auto-cancelled rental id: " + rental.getId());
+        }
     }
 
 
