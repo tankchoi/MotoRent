@@ -11,11 +11,11 @@
         android:title="Lịch sử"
         />
     <item
-        android:id="@+id/nav_bill"
+        android:id="@+id/nav_rental"
         android:title="Đơn thuê"
         android:icon="@drawable/icons8_bill_30"/>
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/nav_account"
         android:title="Tài khoản"
         android:icon="@drawable/icons8_user_30"/>
 </menu>
