@@ -240,12 +240,12 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtCCCD"
+                    <ImageView
+                        android:id="@+id/ivCCCD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="NGUYEN VAN A" />
+                        android:src="@drawable/avatar_5"
+                        android:layout_weight="2"/>
                 </LinearLayout>
 
                 <!-- Bằng lái -->
@@ -262,12 +262,12 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <EditText
-                        android:id="@+id/edtGPLX"
+                    <ImageView
+                        android:id="@+id/ivGPLX"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="NGUYEN VAN A" />
+                        android:src="@drawable/avatar_5"
+                        android:layout_weight="2"/>
                 </LinearLayout>
 
                 <!-- Nút Lưu -->
