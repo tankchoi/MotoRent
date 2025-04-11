@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.motorentmobile.databinding.ActivityLoginBinding;
 import com.example.motorentmobile.viewmodel.LoginViewModel;
-//import com.example.motorentmobile.ui.home.HomeActivity;
+
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
@@ -22,7 +22,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         setupObserver();
