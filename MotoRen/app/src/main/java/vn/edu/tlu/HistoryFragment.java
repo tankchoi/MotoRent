@@ -3,62 +3,49 @@ package vn.edu.tlu;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HistoryFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HistoryFragment extends Fragment {
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import vn.edu.tlu.adapter.HistoryAdapter;
+import vn.edu.tlu.model.History;
+import vn.edu.tlu.ui.BaseFragment;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    public HistoryFragment() {
-        // Required empty public constructor
-    }
+public class HistoryFragment extends BaseFragment {
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HistoryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HistoryFragment newInstance(String param1, String param2) {
-        HistoryFragment fragment = new HistoryFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_history;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    protected void initView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.rvHistoryList);
+        List<History> historyList = new ArrayList<>();
+        historyList.add(new History("1", 120000, 120000, LocalDateTime.parse("2023-10-01T00:00:00"), LocalDateTime.parse("2023-10-02T00:00:00"),"Vision"));
+
+        historyList.add(new History("2", 120000, 120000, LocalDateTime.parse("2023-10-01T00:00:00"), LocalDateTime.parse("2023-10-02T00:00:00"),"Air Blade"));
+
+        HistoryAdapter adapter = new HistoryAdapter(historyList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(mContext, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void initListeners() {
+
     }
 }

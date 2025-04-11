@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import vn.edu.tlu.R;
 import vn.edu.tlu.adapter.VehicleAdapter;
 import vn.edu.tlu.model.Vehicle;
 import vn.edu.tlu.ui.BaseFragment;
@@ -20,7 +19,6 @@ import vn.edu.tlu.ui.BaseFragment;
 public class HomeFragment extends BaseFragment {
     private EditText edtNgayNhan;
     private EditText edtNgayTra;
-    private TextView tvWelcome;
 
     @Override
     protected int getLayoutResId() {
@@ -47,7 +45,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initData() {
         // Gán dữ liệu mặc định
-        tvWelcome.setText("Chào mừng đến với ứng dụng!");
     }
 
     @Override

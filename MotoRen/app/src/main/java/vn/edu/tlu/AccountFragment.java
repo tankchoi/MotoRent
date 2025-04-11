@@ -16,7 +16,7 @@ public class AccountFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.fragment_account;
     }
 
     @Override

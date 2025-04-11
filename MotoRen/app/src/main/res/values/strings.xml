@@ -28,4 +28,7 @@
     <string name="image_view_item_transform_content_description">Represents an image view in the
         item
     </string>
+    <string name="color_vehicle" />
+    <string name="price_vehicle" />
+    <string name="type_vehicle" />
 </resources>
