@@ -1,41 +1,31 @@
 package vn.edu.tlu;
 
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import vn.edu.tlu.adapter.VehicleAdapter;
 import vn.edu.tlu.model.Vehicle;
-import vn.edu.tlu.ui.BaseFragment;
+import vn.edu.tlu.ui.BaseActivity;
 
-
-public class RentalFragment extends BaseFragment {
-
-
+public class PaymentActivity extends BaseActivity {
     @Override
-    protected int getLayoutResId() {
-        return R.layout.fragment_rental;
+    protected int getLayoutRes() {
+        return R.layout.activity_payment;
     }
 
     @Override
-    protected void initView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.rvVehicleList);
+    protected void initView() {
+        RecyclerView recyclerView = findViewById(R.id.rvVehicleList);
         List<Vehicle> vehicleList = new ArrayList<>();
         vehicleList.add(new Vehicle("Vision", R.drawable.airblade_5));
         vehicleList.add(new Vehicle("Air Blade", R.drawable.airblade_5));
 
         VehicleAdapter adapter = new VehicleAdapter(vehicleList);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
     }
 
