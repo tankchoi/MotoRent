@@ -1,6 +1,6 @@
 # 🚀 MotoRent - Ứng dụng thuê xe máy
 
-MotoRent là hệ thống thuê xe máy dành cho sinh viên và người dùng phổ thông, gồm 2 phần chính:
+MotoRent là hệ thống thuê xe máy dành cho người dùng phổ thông, gồm 2 phần chính:
 - MotoRent/ - Backend Spring Boot (MVC + REST API)
 - MotoRentMobile/ - Ứng dụng Android viết bằng Java (kiến trúc MVVM)
 
