@@ -1,7 +1,7 @@
 
 .main-container{
     display: flex;
-    height: 100vh;
+    height-min:  100vh;
 }
 .page-container{
     padding: 20px;
