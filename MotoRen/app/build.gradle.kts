@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "vn.edu.tlu"
-        minSdk = 33
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -48,7 +48,10 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation (libs.play.services.maps)
+    implementation (libs.play.services.location)
 }

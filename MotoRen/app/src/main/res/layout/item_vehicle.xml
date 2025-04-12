@@ -11,7 +11,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@android:dimen/system_app_widget_background_radius"
+        app:cardCornerRadius="@dimen/custom_card_radius"
         app:cardElevation="8dp">
 
         <LinearLayout
@@ -25,7 +25,9 @@
                 android:id="@+id/imgVehicle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/airblade_5"/>
+                android:src="@drawable/airblade_5"
+                android:scaleType="centerCrop"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -106,6 +108,11 @@
                         android:text="60000đ"/>
                 </LinearLayout>
             </LinearLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Xóa"
+                android:background="@drawable/btn_red"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
