@@ -13,32 +13,55 @@
     <div th:insert="fragments/nav-side :: nav-side"></div>
     <div class="page-container">
         <div class="noti-container">
-            <a href=""><img th:src="@{/assets/images/icons8-notification-32.png}" alt=""><sub>1</sub></a>
+            <a href="#"><img src="/assets/images/icons8-notification-32.png" alt=""><sub>1</sub></a>
         </div>
+
+        <!-- Thông báo mới -->
+        <div class="notification-list p-6">
+            <h2 class="text-xl font-bold mb-4">Thông báo mới</h2>
+            <ul class="space-y-2">
+                <li class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4">
+                    <p>Xe của bạn sẽ hết hạn thuê vào ngày mai.</p>
+                    <span class="text-xs text-gray-500 block">11/04/2025 10:15</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Thẻ số liệu người dùng -->
         <div class="chart-container">
-            <div class="card-container flex justify-between   ">
+            <div class="card-container flex justify-between">
                 <div class="chart-card flex-1">
-                    <h1 class="block">Tổng số người dùng</h1>
-                    <p class="block">100</p>
+                    <h1>Tổng số người dùng</h1>
+                    <p>100</p>
                 </div>
                 <div class="chart-card flex-1">
                     <h1>Người dùng mới hôm nay</h1>
                     <p>10</p>
+                </div>
+                <div class="chart-card flex-1">
+                    <h1>Lượt thuê hôm nay</h1>
+                    <p>8</p>
+                </div>
+                <div class="chart-card flex-1">
+                    <h1>Doanh thu hôm nay</h1>
+                    <p>12.000.000đ</p>
                 </div>
             </div>
             <div class="chart-content">
                 <canvas id="myPieChart"></canvas>
             </div>
         </div>
+
+        <!-- Thẻ phương tiện -->
         <div class="chart-container">
-            <div class="card-container flex justify-between   ">
+            <div class="card-container flex justify-between">
                 <div class="chart-card flex-1">
-                    <h1 class="block">Tổng số phương tiện</h1>
-                    <p class="block">100</p>
+                    <h1>Tổng số phương tiện</h1>
+                    <p>100</p>
                 </div>
                 <div class="chart-card flex-1">
-                    <h1>Người dùng mới hôm nay</h1>
-                    <p>10</p>
+                    <h1>Phương tiện đang thuê</h1>
+                    <p>25</p>
                 </div>
             </div>
             <div class="chart-content">
@@ -46,92 +69,101 @@
             </div>
         </div>
 
-
+        <!-- Lượt thuê gần đây -->
+        <div class="recent-rentals p-6">
+            <h2 class="text-2xl font-bold mb-4">Lượt thuê gần đây</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                    <thead>
+                    <tr class="bg-gray-100 text-gray-600 text-left text-sm uppercase">
+                        <th class="py-3 px-4">Người thuê</th>
+                        <th class="py-3 px-4">Xe thuê</th>
+                        <th class="py-3 px-4">Bắt đầu</th>
+                        <th class="py-3 px-4">Kết thúc</th>
+                        <th class="py-3 px-4">Trạng thái</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="border-b">
+                        <td class="py-3 px-4">Nguyễn Văn A</td>
+                        <td class="py-3 px-4">Toyota Vios</td>
+                        <td class="py-3 px-4">10/04/2025</td>
+                        <td class="py-3 px-4">12/04/2025</td>
+                        <td class="py-3 px-4">Đang chờ</td>
+                    </tr>
+                    <tr class="border-b">
+                        <td class="py-3 px-4">Trần Thị B</td>
+                        <td class="py-3 px-4">Honda City</td>
+                        <td class="py-3 px-4">09/04/2025</td>
+                        <td class="py-3 px-4">11/04/2025</td>
+                        <td class="py-3 px-4">Đã trả</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"></div>
 
+<!-- Biểu đồ Chart.js -->
 <script>
-    const ctx = document.getElementById('myPieChart');
-
-    new Chart(ctx, {
-        type: 'pie', // Loại biểu đồ là 'pie' cho biểu đồ tròn
+    const pieCtx = document.getElementById('myPieChart');
+    new Chart(pieCtx, {
+        type: 'pie',
         data: {
-            labels: ['Khách hàng', 'Nhân viên', 'Quản lý'], // Nhãn cho từng phần của biểu đồ
+            labels: ['Khách hàng', 'Nhân viên', 'Quản lý'],
             datasets: [{
-                label: 'Dữ liệu', // Nhãn cho dataset (có thể bỏ qua đối với biểu đồ tròn)
-                data: [30, 40, 30], // Mảng các giá trị dữ liệu tương ứng với nhãn
-                backgroundColor: [ // Mảng màu nền cho từng phần
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)'
-                ],
-                hoverOffset: 4 // Khoảng cách "nhô" ra khi di chuột vào một phần
+                data: [30, 40, 30],
+                backgroundColor: ['rgb(255, 99, 132)','rgb(54, 162, 235)','rgb(255, 205, 86)'],
+                hoverOffset: 4
             }]
         },
         options: {
-            responsive: true, // Cho phép biểu đồ tự động điều chỉnh kích thước theo container
-            maintainAspectRatio: false, // Không duy trì tỷ lệ khung hình (có thể tùy chỉnh kích thước tự do)
+            responsive: true,
             plugins: {
-                legend: {
-                    position: 'top', // Vị trí hiển thị chú giải (top, bottom, left, right)
-                },
-                title: {
-                    display: true,
-                    text: 'Biểu đồ tròn ví dụ' // Tiêu đề của biểu đồ
-                }
+                legend: { position: 'top' },
+                title: { display: true, text: 'Tỷ lệ phân quyền người dùng' }
             }
         }
     });
-</script>
-<script>
-    const ctx = document.getElementById('myBarChart');
 
-    new Chart(ctx, {
-        type: 'bar', // Loại biểu đồ là 'bar' cho biểu đồ cột
+    const barCtx = document.getElementById('myBarChart');
+    new Chart(barCtx, {
+        type: 'bar',
         data: {
-            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'], // Nhãn cho các cột (thường là trục x)
-            datasets: [{
-                label: 'Doanh thu (triệu VNĐ)', // Nhãn cho dataset
-                data: [65, 59, 80, 81, 56, 55], // Mảng các giá trị dữ liệu tương ứng với nhãn
-                backgroundColor: 'rgba(54, 162, 235, 0.8)', // Màu nền cho các cột (có thể là một màu duy nhất hoặc một mảng màu)
-                borderColor: 'rgba(54, 162, 235, 1)', // Màu viền cho các cột
-                borderWidth: 1 // Độ dày của viền
-            },
+            labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6'],
+            datasets: [
+                {
+                    label: 'Doanh thu (triệu VNĐ)',
+                    data: [65, 59, 80, 81, 56, 55],
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
                 {
                     label: 'Chi phí (triệu VNĐ)',
                     data: [40, 45, 60, 70, 45, 50],
                     backgroundColor: 'rgba(255, 99, 132, 0.8)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     borderWidth: 1
-                }]
+                }
+            ]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             scales: {
                 y: {
-                    beginAtZero: true, // Bắt đầu trục y từ 0
-                    title: {
-                        display: true,
-                        text: 'Giá trị (triệu VNĐ)' // Tiêu đề cho trục y
-                    }
+                    beginAtZero: true,
+                    title: { display: true, text: 'Giá trị (triệu VNĐ)' }
                 },
                 x: {
-                    title: {
-                        display: true,
-                        text: 'Tháng' // Tiêu đề cho trục x
-                    }
+                    title: { display: true, text: 'Tháng' }
                 }
             },
             plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Biểu đồ Doanh thu và Chi phí 6 tháng đầu năm'
-                }
+                legend: { position: 'top' },
+                title: { display: true, text: 'Doanh thu & Chi phí 6 tháng đầu năm' }
             }
         }
     });
