@@ -10,5 +10,6 @@
         android:id="@+id/imgVehicle"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/airblade_5"/>
+        android:src="@drawable/airblade_5"
+        android:scaleType="centerCrop"/>
 </LinearLayout>

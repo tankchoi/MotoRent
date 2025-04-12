@@ -64,11 +64,6 @@
                     android:layout_height="wrap_content"
                     android:text="Thông tin tài khoản" />
 
-                <ImageView
-                    android:layout_width="174dp"
-                    android:layout_height="148dp"
-                    android:background="@drawable/circle_bg"
-                    android:src="@drawable/icons8_user_50" />
 
                 <!-- Tên đăng nhập -->
                 <LinearLayout
@@ -242,9 +237,10 @@
 
                     <ImageView
                         android:id="@+id/ivCCCD"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
                         android:src="@drawable/avatar_5"
+                        android:scaleType="centerInside"
                         android:layout_weight="2"/>
                 </LinearLayout>
 
@@ -264,8 +260,9 @@
 
                     <ImageView
                         android:id="@+id/ivGPLX"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:scaleType="centerInside"
                         android:src="@drawable/avatar_5"
                         android:layout_weight="2"/>
                 </LinearLayout>

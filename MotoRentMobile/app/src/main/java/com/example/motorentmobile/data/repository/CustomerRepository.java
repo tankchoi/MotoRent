@@ -36,8 +36,6 @@ public class CustomerRepository {
     public LiveData<Boolean> getIsSuccess() {
         return isSuccess;
     }
-
-    // Phương thức đăng ký người dùng
     // Phương thức đăng ký người dùng
     public void registerUser(RegisterRequest registerRequest) {
         // Tạo các RequestBody từ đối tượng RegisterRequest

@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.motorentmobile.databinding.ActivityLoginBinding;
+import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.LoginViewModel;
 
 
@@ -26,6 +27,14 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         binding.setViewModel(loginViewModel);
         binding.setLifecycleOwner(this);
+        SharedPreferencesHelper sharedPrefs = SharedPreferencesHelper.getInstance(this);
+        if (sharedPrefs.isLoggedIn()) {
+            String savedEmail = sharedPrefs.getUsername();
+            String savedPassword = sharedPrefs.getPassword();
+
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loginViewModel.login(savedEmail, savedPassword);
+        }
 
         setupListeners();
         setupObserver();
@@ -55,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
             binding.progressBar.setVisibility(View.GONE);
             if (isSuccess != null && isSuccess) {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                // startActivity(new Intent(this, HomeActivity.class));
+                 startActivity(new Intent(this, HomeActivity.class));
                 finish();
             }
         });
