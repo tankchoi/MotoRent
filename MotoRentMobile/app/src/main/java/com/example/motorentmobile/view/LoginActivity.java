@@ -22,23 +22,31 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        setupObserver();
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        binding.setViewModel(loginViewModel);
+        binding.setLifecycleOwner(this);
+
         setupListeners();
+        setupObserver();
     }
 
     private void setupListeners() {
+        binding.tvRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
         binding.btnLogin.setOnClickListener(v -> {
             String email = binding.edtEmail.getText().toString().trim();
             String password = binding.edtPassword.getText().toString().trim();
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-            } else {
-                binding.progressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(email, password);
+                loginViewModel.setErrorMessage("Vui lòng nhập đầy đủ thông tin");
+                return;
             }
+
+            binding.progressBar.setVisibility(View.VISIBLE);
+            loginViewModel.login(email, password);
         });
     }
 
@@ -47,10 +55,8 @@ public class LoginActivity extends AppCompatActivity {
             binding.progressBar.setVisibility(View.GONE);
             if (isSuccess != null && isSuccess) {
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-//                startActivity(new Intent(this, HomeActivity.class));
+                // startActivity(new Intent(this, HomeActivity.class));
                 finish();
-            } else {
-                Toast.makeText(this, "Sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show();
             }
         });
     }

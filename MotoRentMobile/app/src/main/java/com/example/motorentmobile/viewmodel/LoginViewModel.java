@@ -13,6 +13,7 @@ import com.example.motorentmobile.data.repository.AuthRepository;
 public class LoginViewModel extends AndroidViewModel {
     private final AuthRepository authRepository;
     private final MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
+    private final MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -23,8 +24,27 @@ public class LoginViewModel extends AndroidViewModel {
         return loginResult;
     }
 
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+    public void setErrorMessage(String message) {
+        errorMessage.setValue(message);
+    }
+
     public void login(String email, String password) {
         LoginRequest request = new LoginRequest(email, password);
-        authRepository.login(request).observeForever(result -> loginResult.setValue(result));
+        authRepository.login(request, new AuthRepository.AuthCallback() {
+            @Override
+            public void onSuccess() {
+                loginResult.postValue(true);
+                errorMessage.postValue(null);
+            }
+
+            @Override
+            public void onError(String error) {
+                loginResult.postValue(false);
+                errorMessage.postValue(error);
+            }
+        });
     }
 }

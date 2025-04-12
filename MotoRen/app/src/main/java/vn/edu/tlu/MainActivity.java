@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity {
             } else if (id == R.id.nav_account) {
                 selectedFragment = new AccountFragment();
             }
-
             if (selectedFragment != null) {
                 getSupportFragmentManager()
                         .beginTransaction()

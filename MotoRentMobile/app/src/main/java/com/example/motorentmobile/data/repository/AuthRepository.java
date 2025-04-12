@@ -20,38 +20,39 @@ import retrofit2.Response;
 public class AuthRepository {
     private final ApiService apiService;
     private final SharedPreferencesHelper prefs;
+
     public AuthRepository(Context context) {
         apiService = ApiClient.getClient(context).create(ApiService.class);
         prefs = SharedPreferencesHelper.getInstance(context);
     }
-    public MutableLiveData<Boolean> login(LoginRequest request) {
-        MutableLiveData<Boolean> result = new MutableLiveData<>();
+
+    public void login(LoginRequest request, AuthCallback callback) {
         prefs.saveLogin(request.getEmail(), request.getPassword());
 
         apiService.login(request).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    result.setValue(true);
+                    callback.onSuccess();
                 } else {
                     try {
-                        String errorBody = response.errorBody() != null ? response.errorBody().string() : "Unknown error";
-                        Log.e("AuthRepository", "Login failed: " + errorBody);
+                        String error = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định";
+                        callback.onError(error);
                     } catch (IOException e) {
-                        Log.e("AuthRepository", "Error reading errorBody", e);
+                        callback.onError("Không thể đọc lỗi từ máy chủ");
                     }
-                    result.setValue(false);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.e("AuthRepository", "Login request failed", t);
-                result.setValue(false);
+                callback.onError("Lỗi kết nối: " + t.getMessage());
             }
         });
-
-        return result;
     }
 
+    public interface AuthCallback {
+        void onSuccess();
+        void onError(String errorMessage);
+    }
 }
