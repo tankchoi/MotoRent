@@ -16,7 +16,12 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
 
@@ -40,7 +45,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
         FrameLayout container = findViewById(R.id.container);
         container.addView(binding.getRoot());
 
@@ -56,8 +60,53 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
             mapView.getMapAsync(this);
         }
 
+
         binding.edtStartTime.setOnClickListener(v -> showDatePicker(binding.edtStartTime));
         binding.edtEndTime.setOnClickListener(v -> showDatePicker(binding.edtEndTime));
+
+        binding.btnDatXe.setOnClickListener(v -> {
+            String startDateStr = binding.edtStartTime.getText().toString();
+            String endDateStr = binding.edtEndTime.getText().toString();
+
+            if (startDateStr.isEmpty() || endDateStr.isEmpty()) {
+                Toast.makeText(this, "Vui lòng chọn thời gian", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+
+            try {
+                Date startDate = inputFormat.parse(startDateStr);
+                Date endDate = inputFormat.parse(endDateStr);
+                Date now = new Date();
+
+                if (startDate.before(now)) {
+                    Toast.makeText(this, "Không thể thuê xe trong quá khứ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (endDate.before(startDate)) {
+                    Toast.makeText(this, "Ngày trả xe phải sau hoặc bằng ngày mượn", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Format lại ngày theo chuẩn ISO để truyền sang Activity khác
+                String formattedStart = isoFormat.format(startDate);
+                String formattedEnd = isoFormat.format(endDate);
+
+                Intent intent = new Intent(this, VehicleActivity.class);
+                intent.putExtra("startTime", formattedStart);
+                intent.putExtra("endTime", formattedEnd);
+                startActivity(intent);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Lỗi định dạng ngày", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
     }

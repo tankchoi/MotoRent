@@ -35,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (itemId == getNavigationMenuItemId()) return true;
 
             if (itemId == R.id.nav_home) {
-//                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, HomeActivity.class));
             } else if (itemId == R.id.nav_history) {
 
             } else if (itemId == R.id.nav_rental) {

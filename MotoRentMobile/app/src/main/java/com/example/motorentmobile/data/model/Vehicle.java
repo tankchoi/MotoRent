@@ -1,4 +1,6 @@
-package com.example.motorentmobile.model;
+package com.example.motorentmobile.data.model;
+
+import com.example.motorentmobile.data.model.VehicleImage;
 
 import java.util.List;
 

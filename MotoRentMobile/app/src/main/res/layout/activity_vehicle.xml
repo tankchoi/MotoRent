@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!-- Khai báo các ViewModel hoặc các đối tượng cần liên kết -->
+        <variable
+            name="viewModel"
+            type="com.example.motorentmobile.viewmodel.VehicleViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <!-- Ô tìm kiếm và nút lọc -->
+        <LinearLayout
+            android:id="@+id/search_filter_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/color_background">
+
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="45dp"
+                android:hint="Wave, vision"
+                android:background="@drawable/search_background"
+                android:padding="10dp"
+                android:drawableStart="@drawable/icons8_search_24"
+                android:drawablePadding="8dp"
+                android:textColorHint="#888888"
+                android:text="@={viewModel.searchQuery}" /> <!-- Liên kết với viewModel -->
+
+            <ImageView
+                android:id="@+id/btnFilter"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/icons8_filter_24"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Filter"
+                android:onClick="@{() -> viewModel.onFilterClick()}" />
+        </LinearLayout>
+
+        <!-- Danh sách xe dạng Grid -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvVehicleList"
+            android:layout_below="@id/search_filter_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="8dp"
+            android:clipToPadding="false"
+            app:adapter="@{viewModel.vehicleAdapter}" /> <!-- Liên kết với adapter trong viewModel -->
+
+    </RelativeLayout>
+</layout>
