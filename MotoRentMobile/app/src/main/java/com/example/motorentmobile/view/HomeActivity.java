@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.motorentmobile.R;
 import com.example.motorentmobile.databinding.ActivityHomeBinding;
+import com.example.motorentmobile.viewmodel.RentalManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -60,6 +61,15 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
             mapView.getMapAsync(this);
         }
 
+        // Lấy dữ liệu từ RentalManager
+        Date startTime = RentalManager.getInstance().getStartTime();
+        Date endTime = RentalManager.getInstance().getEndTime();
+
+        if (startTime != null && endTime != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            binding.edtStartTime.setText(dateFormat.format(startTime));
+            binding.edtEndTime.setText(dateFormat.format(endTime));
+        }
 
         binding.edtStartTime.setOnClickListener(v -> showDatePicker(binding.edtStartTime));
         binding.edtEndTime.setOnClickListener(v -> showDatePicker(binding.edtEndTime));
@@ -68,19 +78,23 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
             String startDateStr = binding.edtStartTime.getText().toString();
             String endDateStr = binding.edtEndTime.getText().toString();
 
+            // Kiểm tra nếu chưa chọn thời gian
             if (startDateStr.isEmpty() || endDateStr.isEmpty()) {
                 Toast.makeText(this, "Vui lòng chọn thời gian", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Định dạng ngày tháng
             SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
             SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
             try {
+                // Chuyển đổi chuỗi ngày giờ thành đối tượng Date
                 Date startDate = inputFormat.parse(startDateStr);
                 Date endDate = inputFormat.parse(endDateStr);
                 Date now = new Date();
 
+                // Kiểm tra thời gian hợp lệ
                 if (startDate.before(now)) {
                     Toast.makeText(this, "Không thể thuê xe trong quá khứ", Toast.LENGTH_SHORT).show();
                     return;
@@ -91,10 +105,16 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
                     return;
                 }
 
-                // Format lại ngày theo chuẩn ISO để truyền sang Activity khác
+                // Cập nhật ngày thuê xe vào RentalManager
+                RentalManager rentalManager = RentalManager.getInstance();
+                rentalManager.setStartTime(startDate);
+                rentalManager.setEndTime(endDate);
+
+                // Chuyển đổi ngày sang định dạng ISO
                 String formattedStart = isoFormat.format(startDate);
                 String formattedEnd = isoFormat.format(endDate);
 
+                // Truyền ngày bắt đầu và kết thúc vào Intent và chuyển sang Activity khác
                 Intent intent = new Intent(this, VehicleActivity.class);
                 intent.putExtra("startTime", formattedStart);
                 intent.putExtra("endTime", formattedEnd);
@@ -105,7 +125,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
                 Toast.makeText(this, "Lỗi định dạng ngày", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
 

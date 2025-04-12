@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RentalFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".view.RentalActivity">
 
         <!-- Nút quay lại -->
         <LinearLayout
@@ -25,7 +24,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/icons8_arrow_24"/>
+                android:src="@drawable/icons8_arrow_24" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +35,6 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-        <!-- Tiêu đề -->
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -75,87 +73,47 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
-                    <!-- Các thông tin -->
-                    <TextView android:text="Mã đơn" style="@style/InfoRow"/>
-                    <TextView android:text="Họ và tên" style="@style/InfoRow"/>
-                    <TextView android:text="Ngày sinh" style="@style/InfoRow"/>
-                    <TextView android:text="CCCD" style="@style/InfoRow"/>
-                    <TextView android:text="Địa chỉ" style="@style/InfoRow"/>
-                    <TextView android:text="Số điện thoại" style="@style/InfoRow"/>
-                    <TextView android:text="Ngày thuê" style="@style/InfoRow"/>
-                    <TextView android:text="Ngày trả" style="@style/InfoRow"/>
-                    <TextView android:text="Chi phí" style="@style/InfoRow"/>
-                    <TextView android:text="Cọc trước" style="@style/InfoRow"/>
+                    <TextView
+                        android:id="@+id/tvStartTime"
+                        android:text="Ngày thuê"
+                        style="@style/InfoRow" />
 
-                    <!-- Divider -->
+                    <TextView
+                        android:id="@+id/tvEndTime"
+                        android:text="Ngày trả"
+                        style="@style/InfoRow" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#CCCCCC"
                         android:layout_marginVertical="12dp" />
 
-                    <!-- CardView chứa thông tin xe -->
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvVehicleList"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <!-- Chi phí phát sinh -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        >
+                        />
 
-                        <TextView android:text="Chi phí phát sinh:"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                        <TextView
-                            android:text="Quá giờ"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                    </LinearLayout>
-
-                    <!-- Thuế VAT -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp">
-
-                        <TextView android:text="Thuế VAT:"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                        <TextView android:text="10%"
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"/>
-                    </LinearLayout>
-
-                    <!-- Tổng chi phí -->
                     <TextView
+                        android:id="@+id/tvTotalPrice"
                         android:text="Tổng chi phí"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"
                         android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"/>
+                        android:layout_width="wrap_content" />
 
-                    <!-- Nút xác nhận -->
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Xác nhận"
+                        android:text="Thanh toán"
                         android:textColor="@android:color/white"
                         android:layout_marginTop="12dp"
                         android:background="@drawable/btn_background" />
-
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-</FrameLayout>
+</layout>

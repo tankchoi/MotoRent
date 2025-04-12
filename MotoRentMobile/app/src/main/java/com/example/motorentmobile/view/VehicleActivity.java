@@ -26,7 +26,7 @@ public class VehicleActivity extends BaseActivity {
 
     @Override
     protected int getNavigationMenuItemId() {
-        return R.id.nav_home;
+        return 0;
     }
 
     @Override

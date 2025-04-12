@@ -2,9 +2,10 @@ package com.example.motorentmobile.data.model;
 
 import com.example.motorentmobile.data.model.VehicleImage;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Vehicle {
+public class Vehicle implements Serializable {
     private Long id;
     private String name;
     private String brand;

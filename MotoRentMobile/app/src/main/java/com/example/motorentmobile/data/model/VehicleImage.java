@@ -1,6 +1,8 @@
 package com.example.motorentmobile.data.model;
 
-public class VehicleImage {
+import java.io.Serializable;
+
+public class VehicleImage implements Serializable {
     private Long id;
     private String url;
 
