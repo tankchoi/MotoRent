@@ -42,8 +42,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                 startActivity(new Intent(this,RentalActivity.class));
             } else if (itemId == R.id.nav_account) {
                 startActivity(new Intent(this, AccountActivity.class));
+            } else if (itemId == R.id.nav_notification) {
+                startActivity(new Intent(this, NotificationActivity.class));
             }
-            finish(); // tránh chồng Activity
+            new android.os.Handler(getMainLooper()).postDelayed(this::finish, 100); // tránh chồng Activity
             return true;
         });
     }
