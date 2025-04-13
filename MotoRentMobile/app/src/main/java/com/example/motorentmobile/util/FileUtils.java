@@ -1,13 +1,15 @@
-package com.example.motorentmobile.utils;
+package com.example.motorentmobile.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class FileUtils {
 
@@ -39,4 +41,16 @@ public class FileUtils {
         }
         return file;
     }
+
+    public static void copy(File src, File dst) throws IOException {
+        try (InputStream in = new FileInputStream(src);
+             OutputStream out = new FileOutputStream(dst)) {
+            byte[] buf = new byte[8192];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        }
+    }
+
 }

@@ -13,8 +13,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.motorentmobile.data.model.Account;
+import com.example.motorentmobile.data.model.UpdateAccount;
 import com.example.motorentmobile.data.repository.AccountRepository;
-import com.example.motorentmobile.utils.FileUtils;
+import com.example.motorentmobile.util.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,7 +56,7 @@ public class AccountViewModel extends AndroidViewModel {
         return updateSuccess;
     }
 
-    // Tải thông tin tài khoản
+    // Fetch account info from the repository
     public void fetchAccountInfo() {
         isLoading.setValue(true);
         repository.getAccountInfo(new AccountRepository.AccountCallback() {
@@ -64,6 +65,7 @@ public class AccountViewModel extends AndroidViewModel {
                 isLoading.postValue(false);
                 account.postValue(accountData);
 
+                // Download and save images for identity card and driver's license
                 loadAndSaveImage(accountData.getIdentityCard());
                 loadAndSaveImage(accountData.getDriverLicense());
             }
@@ -76,7 +78,7 @@ public class AccountViewModel extends AndroidViewModel {
         });
     }
 
-    // Tải và lưu ảnh từ URL
+    // Load and save images from URLs
     private void loadAndSaveImage(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) return;
 
@@ -106,73 +108,35 @@ public class AccountViewModel extends AndroidViewModel {
         }).start();
     }
 
-    // Cập nhật tài khoản
-    public void updateAccountInfo(String email, String fullName, String phone, Uri identityCardUri, Uri driverLicenseUri) {
+    // Update account information
+    public void updateAccountInfo(String email, String fullName, String phone, File identityCard, File driverLicense) {
         try {
-            Log.d("AccountViewModel", "Updating account with email: " + email);
-            Log.d("AccountViewModel", "Identity Card Uri: " + identityCardUri);
-            Log.d("AccountViewModel", "Driver License Uri: " + driverLicenseUri);
-            File identityFile = identityCardUri != null ? getFileFromUri(getApplication(), identityCardUri) : null;
-            File licenseFile = driverLicenseUri != null ? getFileFromUri(getApplication(), driverLicenseUri) : null;
+            // Log đường dẫn file đã nén và nén sẵn
+            Log.d("AccountViewModel", "Identity card file: " + (identityCard != null ? identityCard.getAbsolutePath() : "null"));
+            Log.d("AccountViewModel", "Driver license file: " + (driverLicense != null ? driverLicense.getAbsolutePath() : "null"));
 
-            RequestBody emailBody = toRequestBody(email);
-            RequestBody fullNameBody = toRequestBody(fullName);
-            RequestBody phoneBody = toRequestBody(phone);
+            // Tạo đối tượng UpdateAccount
+            UpdateAccount updateRequest = new UpdateAccount(email, fullName, phone, identityCard, driverLicense);
 
-            MultipartBody.Part identityPart = toMultipartBody("identityCardImage", identityFile);
-            MultipartBody.Part licensePart = toMultipartBody("driverLicenseImage", licenseFile);
-            if (identityFile != null) {
-                Log.d("AccountViewModel", "Identity card file path: " + identityFile.getAbsolutePath());
-            } else {
-                Log.d("AccountViewModel", "Identity card file is null");
-            }
-            if (licenseFile != null) {
-                Log.d("AccountViewModel", "Driver license file path: " + licenseFile.getAbsolutePath());
-            } else {
-                Log.d("AccountViewModel", "Driver license file is null");
-            }
+            // Gọi repository để cập nhật thông tin người dùng
+            repository.updateUser(updateRequest);
 
-            repository.updateAccount(emailBody, fullNameBody, phoneBody, identityPart, licensePart, new AccountRepository.UpdateCallback() {
-                @Override
-                public void onSuccess() {
-                    updateSuccess.postValue(true);
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    errorMessage.postValue("Lỗi: " + t.getMessage());
-                }
-            });
         } catch (Exception e) {
+            Log.e("AccountViewModel", "Error when processing images: " + e.getMessage());
             errorMessage.setValue("Lỗi khi xử lý ảnh: " + e.getMessage());
         }
     }
 
-    // Chuyển đổi String thành RequestBody
-    private RequestBody toRequestBody(String value) {
-        return RequestBody.create(value, okhttp3.MediaType.parse("text/plain; charset=UTF-8"));
-    }
-
-    // Chuyển đổi Uri thành File và sau đó thành MultipartBody.Part
+    // Convert File to MultipartBody.Part for API call
     private MultipartBody.Part toMultipartBody(String partName, File file) {
         if (file == null) {
             return null;
         }
-
         RequestBody requestBody = RequestBody.create(file, okhttp3.MediaType.parse("image/*"));
         return MultipartBody.Part.createFormData(partName, file.getName(), requestBody);
     }
 
-    // Lấy File từ Uri
-    private File getFileFromUri(Context context, Uri uri) throws IOException {
-        File file = FileUtils.getFileFromUri(context, uri);
-        if (file != null) {
-            return file;
-        }
-        throw new IOException("Không thể lấy file từ Uri");
-    }
-
-    // Lưu Bitmap vào Cache
+    // Save Bitmap image to cache and return the URI
     private Uri saveBitmapToCache(Context context, Bitmap bitmap, String fileName) throws IOException {
         File file = new File(context.getCacheDir(), fileName);
         try (FileOutputStream fos = new FileOutputStream(file)) {
