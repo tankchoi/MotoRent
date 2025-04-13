@@ -7,4 +7,6 @@
     <color name="color_second_background">#C3ECC9</color>
     <color name="dark_grey">#a9a9a9</color>
     <color name="color_input">#333333</color>
+    <color name="cancel">#b22222</color>
+    <color name="color_border">#555555</color>
 </resources>

@@ -66,80 +66,94 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvImageList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"/>
 
             <!-- Các thông tin phương tiện -->
-            <LinearLayout
+            <TableLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Tên xe:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@{viewModel.vehicle.name}" />
-            </LinearLayout>
+                android:stretchColumns="1"
+                app:layout_constraintTop_toBottomOf="@id/title">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Hãng xe:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@{viewModel.vehicle.brand}" />
-            </LinearLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Tên xe:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{viewModel.vehicle.name}"
+                        android:padding="5dp"/>
+                </TableRow>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Giá:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text='@{String.valueOf(viewModel.vehicle.pricePerDay) + "đ/ngày"}' />
-            </LinearLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hãng xe:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{viewModel.vehicle.brand}"
+                        android:padding="5dp"/>
+                </TableRow>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Mô tả:"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@{viewModel.vehicle.description}" />
-            </LinearLayout>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Giá:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text='@{String.valueOf(viewModel.vehicle.pricePerDay) + "đ/ngày"}'
+                        android:padding="5dp"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mô tả:"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:padding="5dp"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@{viewModel.vehicle.description}"
+                        android:padding="5dp"/>
+                </TableRow>
+
+            </TableLayout>
 
         </LinearLayout>
 

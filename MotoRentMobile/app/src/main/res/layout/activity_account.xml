@@ -104,7 +104,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.fullName}" />
+                            android:text="@={account.fullName}" />
                     </LinearLayout>
 
                     <!-- Số điện thoại -->
@@ -126,7 +126,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.phone}" />
+                            android:text="@={account.phone}" />
                     </LinearLayout>
 
                     <!-- Email -->
@@ -148,7 +148,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.email}" />
+                            android:text="@={account.email}" />
                     </LinearLayout>
 
                     <!-- CCCD -->

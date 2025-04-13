@@ -57,7 +57,5 @@
                 android:layout_height="wrap_content"
                 android:text="@string/color_vehicle" />
         </LinearLayout>
-
-
     </LinearLayout>
 </androidx.cardview.widget.CardView>
