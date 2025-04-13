@@ -3,13 +3,11 @@ package com.example.motorentmobile.data.repository;
 import android.app.Application;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.motorentmobile.data.api.ApiClient;
 import com.example.motorentmobile.data.api.ApiService;
 import com.example.motorentmobile.data.model.Account;
-import com.example.motorentmobile.data.model.UpdateAccount;
+
+import java.io.IOException;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -26,32 +24,28 @@ public class AccountRepository {
         apiService = ApiClient.getClient(application.getApplicationContext()).create(ApiService.class);
     }
 
-    // Get account info from API with callback
+    // Lấy thông tin tài khoản
     public void getAccountInfo(AccountCallback callback) {
         apiService.getCustomerInfo().enqueue(new Callback<Account>() {
             @Override
             public void onResponse(Call<Account> call, Response<Account> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    callback.onSuccess(response.body()); // Gọi callback.onSuccess với account data
+                    callback.onSuccess(response.body());
                 } else {
-                    callback.onFailure(); // Gọi callback.onFailure nếu không lấy được dữ liệu
+                    Log.e(TAG, "Fetch failed: code " + response.code());
+                    callback.onFailure();
                 }
             }
 
             @Override
             public void onFailure(Call<Account> call, Throwable t) {
-                callback.onFailure(); // Gọi callback.onFailure khi thất bại
+                Log.e(TAG, "Fetch error: " + t.getMessage());
+                callback.onFailure();
             }
         });
     }
 
-    // Callback interface for account fetch result
-    public interface AccountCallback {
-        void onSuccess(Account account);
-        void onFailure();
-    }
-
-    // Update account info via API
+    // Cập nhật tài khoản
     public void updateAccount(
             RequestBody email,
             RequestBody fullName,
@@ -65,44 +59,37 @@ public class AccountRepository {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
+                            Log.i(TAG, "Account updated successfully");
                             callback.onSuccess();
                         } else {
+                            Log.e(TAG, "Update failed: code " + response.code());
+                            try {
+                                if (response.errorBody() != null) {
+                                    Log.e(TAG, "Error body: " + response.errorBody().string());
+                                }
+                            } catch (IOException e) {
+                                Log.e(TAG, "Error reading errorBody", e);
+                            }
                             callback.onFailure(new Exception("Update failed with code " + response.code()));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
+                        Log.e(TAG, "Update error: " + t.getMessage());
                         callback.onFailure(t);
                     }
                 });
     }
 
-    public interface UpdateCallback {
-        void onSuccess();
-        void onFailure(Throwable t); // truyền lỗi cụ thể
-
+    // Callback interface
+    public interface AccountCallback {
+        void onSuccess(Account account);
         void onFailure();
     }
 
-
-
-    public LiveData<Account> getAccountLiveData() {
-        MutableLiveData<Account> data = new MutableLiveData<>();
-        apiService.getCustomerInfo().enqueue(new Callback<Account>() {
-            @Override
-            public void onResponse(Call<Account> call, Response<Account> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    data.setValue(response.body());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Account> call, Throwable t) {
-                data.setValue(null);
-            }
-        });
-        return data;
+    public interface UpdateCallback {
+        void onSuccess();
+        void onFailure(Throwable t);
     }
-
 }

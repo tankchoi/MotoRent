@@ -9,11 +9,14 @@ public class UpdateAccount {
     private File identityCardImage;
     private File driverLicenseImage;
 
-    public UpdateAccount(String email, String fullName, String phone) {
+    public UpdateAccount(String email, String fullName, String phone, File identityCardImage, File driverLicenseImage) {
         this.email = email;
         this.fullName = fullName;
         this.phone = phone;
+        this.identityCardImage = identityCardImage;
+        this.driverLicenseImage = driverLicenseImage;
     }
+
 
     public String getEmail() {
         return email;
