@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_rental) {
                 startActivity(new Intent(this,RentalActivity.class));
             } else if (itemId == R.id.nav_account) {
-
+                startActivity(new Intent(this, AccountActivity.class));
             }
             finish(); // tránh chồng Activity
             return true;
