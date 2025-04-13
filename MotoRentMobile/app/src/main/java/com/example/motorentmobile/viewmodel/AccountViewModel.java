@@ -13,8 +13,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.motorentmobile.data.model.Account;
+import com.example.motorentmobile.data.model.UpdateAccount;
 import com.example.motorentmobile.data.repository.AccountRepository;
-import com.example.motorentmobile.utils.FileUtils;
+import com.example.motorentmobile.util.FileUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,7 +56,7 @@ public class AccountViewModel extends AndroidViewModel {
         return updateSuccess;
     }
 
-    // Tải thông tin tài khoản
+    // Fetch account info from the repository
     public void fetchAccountInfo() {
         isLoading.setValue(true);
         repository.getAccountInfo(new AccountRepository.AccountCallback() {
@@ -64,6 +65,7 @@ public class AccountViewModel extends AndroidViewModel {
                 isLoading.postValue(false);
                 account.postValue(accountData);
 
+                // Download and save images for identity card and driver's license
                 loadAndSaveImage(accountData.getIdentityCard());
                 loadAndSaveImage(accountData.getDriverLicense());
             }
@@ -76,7 +78,7 @@ public class AccountViewModel extends AndroidViewModel {
         });
     }
 
-    // Tải và lưu ảnh từ URL
+    // Load and save images from URLs
     private void loadAndSaveImage(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) return;
 
@@ -106,73 +108,53 @@ public class AccountViewModel extends AndroidViewModel {
         }).start();
     }
 
-    // Cập nhật tài khoản
+    // Update account information
     public void updateAccountInfo(String email, String fullName, String phone, Uri identityCardUri, Uri driverLicenseUri) {
         try {
-            Log.d("AccountViewModel", "Updating account with email: " + email);
-            Log.d("AccountViewModel", "Identity Card Uri: " + identityCardUri);
-            Log.d("AccountViewModel", "Driver License Uri: " + driverLicenseUri);
-            File identityFile = identityCardUri != null ? getFileFromUri(getApplication(), identityCardUri) : null;
-            File licenseFile = driverLicenseUri != null ? getFileFromUri(getApplication(), driverLicenseUri) : null;
+            // Convert URI to File
+            File tempIdentity = identityCardUri != null
+                    ? FileUtils.getFileFromUri(getApplication(), identityCardUri)
+                    : null;
+            File tempLicense = driverLicenseUri != null
+                    ? FileUtils.getFileFromUri(getApplication(), driverLicenseUri)
+                    : null;
 
-            RequestBody emailBody = toRequestBody(email);
-            RequestBody fullNameBody = toRequestBody(fullName);
-            RequestBody phoneBody = toRequestBody(phone);
-
-            MultipartBody.Part identityPart = toMultipartBody("identityCardImage", identityFile);
-            MultipartBody.Part licensePart = toMultipartBody("driverLicenseImage", licenseFile);
-            if (identityFile != null) {
-                Log.d("AccountViewModel", "Identity card file path: " + identityFile.getAbsolutePath());
-            } else {
-                Log.d("AccountViewModel", "Identity card file is null");
+            // Copy file into app's storage
+            File realIdentity = null, realLicense = null;
+            if (tempIdentity != null) {
+                realIdentity = new File(getApplication().getFilesDir(), tempIdentity.getName());
+                FileUtils.copy(tempIdentity, realIdentity);
             }
-            if (licenseFile != null) {
-                Log.d("AccountViewModel", "Driver license file path: " + licenseFile.getAbsolutePath());
-            } else {
-                Log.d("AccountViewModel", "Driver license file is null");
+            if (tempLicense != null) {
+                realLicense = new File(getApplication().getFilesDir(), tempLicense.getName());
+                FileUtils.copy(tempLicense, realLicense);
             }
 
-            repository.updateAccount(emailBody, fullNameBody, phoneBody, identityPart, licensePart, new AccountRepository.UpdateCallback() {
-                @Override
-                public void onSuccess() {
-                    updateSuccess.postValue(true);
-                }
+            // Log file details
+            Log.d("AccountViewModel", "Identity card file: " + (realIdentity != null ? realIdentity.getAbsolutePath() : "null"));
+            Log.d("AccountViewModel", "Driver license file: " + (realLicense != null ? realLicense.getAbsolutePath() : "null"));
 
-                @Override
-                public void onFailure(Throwable t) {
-                    errorMessage.postValue("Lỗi: " + t.getMessage());
-                }
-            });
+            // Create UpdateAccount object
+            UpdateAccount updateRequest = new UpdateAccount(email, fullName, phone, realIdentity, realLicense);
+
+            // Call repository to update user info
+            repository.updateUser(updateRequest);
         } catch (Exception e) {
+            Log.e("AccountViewModel", "Error when processing images: " + e.getMessage());
             errorMessage.setValue("Lỗi khi xử lý ảnh: " + e.getMessage());
         }
     }
 
-    // Chuyển đổi String thành RequestBody
-    private RequestBody toRequestBody(String value) {
-        return RequestBody.create(value, okhttp3.MediaType.parse("text/plain; charset=UTF-8"));
-    }
-
-    // Chuyển đổi Uri thành File và sau đó thành MultipartBody.Part
+    // Convert File to MultipartBody.Part for API call
     private MultipartBody.Part toMultipartBody(String partName, File file) {
         if (file == null) {
             return null;
         }
-
         RequestBody requestBody = RequestBody.create(file, okhttp3.MediaType.parse("image/*"));
         return MultipartBody.Part.createFormData(partName, file.getName(), requestBody);
     }
 
-    // Lấy File từ Uri
-    private File getFileFromUri(Context context, Uri uri) throws IOException {
-        File file = FileUtils.getFileFromUri(context, uri);
-        if (file != null) {
-            return file;
-        }
-        throw new IOException("Không thể lấy file từ Uri");
-    }
-
-    // Lưu Bitmap vào Cache
+    // Save Bitmap image to cache and return the URI
     private Uri saveBitmapToCache(Context context, Bitmap bitmap, String fileName) throws IOException {
         File file = new File(context.getCacheDir(), fileName);
         try (FileOutputStream fos = new FileOutputStream(file)) {

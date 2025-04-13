@@ -1,12 +1,14 @@
 package com.example.motorentmobile.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,8 +48,20 @@ public class AccountActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_account);
+        binding = ActivityAccountBinding.inflate(getLayoutInflater());
+        FrameLayout container = findViewById(R.id.container);
+        container.addView(binding.getRoot());
+
         viewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
+
+        binding.backBtn.setOnClickListener(v -> {
+            // Điều hướng về HomeActivity
+            Intent intent = new Intent(AccountActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // Đảm bảo rằng HomeActivity sẽ được mở lại
+            startActivity(intent);
+            finish(); // Đóng AccountActivity sau khi chuyển đến HomeActivity
+        });
 
         btnUpdate = binding.btnUpdate; // Nút cập nhật tài khoản
 
@@ -96,7 +110,7 @@ public class AccountActivity extends BaseActivity {
             uri -> {
                 if (uri != null) {
                     try {
-                        Bitmap bitmap = decodeSampledBitmapFromUri(this, uri, 800, 800);
+                        Bitmap bitmap = decodeSampledBitmapFromUri(this, uri, 500, 500);
                         if (identityCardUri == null) {
                             identityCardUri = uri;
                             binding.ivCCCD.setImageBitmap(bitmap);

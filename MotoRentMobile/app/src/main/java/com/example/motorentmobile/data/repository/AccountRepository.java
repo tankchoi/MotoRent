@@ -3,9 +3,12 @@ package com.example.motorentmobile.data.repository;
 import android.app.Application;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.motorentmobile.data.api.ApiClient;
 import com.example.motorentmobile.data.api.ApiService;
 import com.example.motorentmobile.data.model.Account;
+import com.example.motorentmobile.data.model.UpdateAccount;
 
 import java.io.IOException;
 
@@ -19,6 +22,10 @@ public class AccountRepository {
 
     private final ApiService apiService;
     private static final String TAG = "AccountRepository";
+
+    // LiveData để theo dõi trạng thái
+    private MutableLiveData<Boolean> isSuccess = new MutableLiveData<>();
+    private MutableLiveData<String> errorMessage = new MutableLiveData<>();
 
     public AccountRepository(Application application) {
         apiService = ApiClient.getClient(application.getApplicationContext()).create(ApiService.class);
@@ -46,40 +53,63 @@ public class AccountRepository {
     }
 
     // Cập nhật tài khoản
-    public void updateAccount(
-            RequestBody email,
-            RequestBody fullName,
-            RequestBody phone,
-            MultipartBody.Part identityCardImage,
-            MultipartBody.Part driverLicenseImage,
-            UpdateCallback callback
-    ) {
-        apiService.updateAccount(email, fullName, phone, identityCardImage, driverLicenseImage)
-                .enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Log.i(TAG, "Account updated successfully");
-                            callback.onSuccess();
-                        } else {
-                            Log.e(TAG, "Update failed: code " + response.code());
-                            try {
-                                if (response.errorBody() != null) {
-                                    Log.e(TAG, "Error body: " + response.errorBody().string());
-                                }
-                            } catch (IOException e) {
-                                Log.e(TAG, "Error reading errorBody", e);
-                            }
-                            callback.onFailure(new Exception("Update failed with code " + response.code()));
-                        }
-                    }
+    public void updateUser(UpdateAccount updateRequest) {
+        // Tạo các RequestBody từ đối tượng UpdateRequest
+        RequestBody emailRequestBody = RequestBody.create(okhttp3.MediaType.parse("text/plain"), updateRequest.getEmail());
+        RequestBody fullNameRequestBody = RequestBody.create(okhttp3.MediaType.parse("text/plain"), updateRequest.getFullName());
+        RequestBody phoneRequestBody = RequestBody.create(okhttp3.MediaType.parse("text/plain"), updateRequest.getPhone());
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Log.e(TAG, "Update error: " + t.getMessage());
-                        callback.onFailure(t);
+        // Tạo MultipartBody.Part cho ảnh CMND/CCCD nếu có
+        MultipartBody.Part identityCardImagePart = null;
+        if (updateRequest.getIdentityCardImage() != null) {
+            RequestBody identityCardRequestBody = RequestBody.create(okhttp3.MediaType.parse("image/*"), updateRequest.getIdentityCardImage());
+            identityCardImagePart = MultipartBody.Part.createFormData("identityCard",
+                    updateRequest.getIdentityCardImage().getName(), identityCardRequestBody);
+        }
+
+        // Tạo MultipartBody.Part cho ảnh giấy phép lái xe nếu có
+        MultipartBody.Part driverLicenseImagePart = null;
+        if (updateRequest.getDriverLicenseImage() != null) {
+            RequestBody driverLicenseRequestBody = RequestBody.create(okhttp3.MediaType.parse("image/*"), updateRequest.getDriverLicenseImage());
+            driverLicenseImagePart = MultipartBody.Part.createFormData("driverLicense",
+                    updateRequest.getDriverLicenseImage().getName(), driverLicenseRequestBody);
+        }
+
+        // Gọi API
+        Call<Void> call = apiService.updateAccount(emailRequestBody, fullNameRequestBody, phoneRequestBody,
+                identityCardImagePart, driverLicenseImagePart);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    // Cập nhật trạng thái thành công
+                    isSuccess.setValue(true);
+                } else {
+                    try {
+                        String errorResponse = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định";
+                        errorMessage.setValue(errorResponse);
+                    } catch (Exception e) {
+                        errorMessage.setValue("Lỗi đọc phản hồi: " + e.getMessage());
                     }
-                });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                // Cập nhật trạng thái lỗi
+                errorMessage.setValue("Lỗi kết nối: " + t.getMessage());
+            }
+        });
+    }
+
+    // Getter cho LiveData
+    public MutableLiveData<Boolean> getIsSuccess() {
+        return isSuccess;
+    }
+
+    public MutableLiveData<String> getErrorMessage() {
+        return errorMessage;
     }
 
     // Callback interface
