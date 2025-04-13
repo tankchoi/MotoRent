@@ -92,7 +92,7 @@ public class PaymentActivity extends AppCompatActivity {
 
     private void observeViewModel() {
         viewModel.paymentUrl.observe(this, url -> {
-            binding.btnConfirm.setEnabled(true);
+            binding.btnConfirm.setEnabled(false);
             binding.btnConfirm.setText("Đã gửi yêu cầu thanh toán");
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         });

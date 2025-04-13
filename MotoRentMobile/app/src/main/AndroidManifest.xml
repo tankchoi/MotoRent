@@ -53,6 +53,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.PaymentResultActivity"
+            android:exported="true">
+            <intent-filter android:label="VNPay Return">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="motorrent"
+                    android:host="payment-return" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

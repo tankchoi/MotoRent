@@ -73,8 +73,6 @@ public class PaymentViewModel extends AndroidViewModel {
                     }
                 } else {
                     String error = "Đã có lỗi xảy ra";
-
-                    // Nếu server trả về body lỗi (thường là JSON)
                     if (response.errorBody() != null) {
                         try {
                             String errorBodyString = response.errorBody().string();

@@ -1,6 +1,7 @@
 package vn.aptech.java.controllers.api;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import vn.aptech.java.services.PaymentService;
 import vn.aptech.java.services.RentalService;
 
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Map;
@@ -42,7 +44,10 @@ public class PaymentApiController
     }
 
     @GetMapping("/api/payment/vnpay/return")
-    public ResponseEntity<String> handleVnPayReturn(@RequestParam Map<String, String> params) {
+    public void handleVnPayReturn(
+            @RequestParam Map<String, String> params,
+            HttpServletResponse response) throws IOException {
+
         String responseCode = params.get("vnp_ResponseCode");
         String rentalId = params.get("vnp_TxnRef");
 
@@ -51,16 +56,19 @@ public class PaymentApiController
 
             if ("00".equals(responseCode)) {
                 rentalService.updateRentalStatus(id, Rental.RentalStatus.PENDING);
-                return ResponseEntity.ok("Thanh toán thành công");
+                String deepLink = "motorrent://payment-return?status=success&orderId=" + rentalId;
+                response.sendRedirect(deepLink);
+                System.out.println(deepLink);
             } else {
                 rentalService.deleteRental(id);
-                return ResponseEntity.ok("Thanh toán thất bại");
+                String deepLink = "motorrent://payment-return?status=failure&orderId=" + rentalId;
+                response.sendRedirect(deepLink);
             }
-
+            ;
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Đã xảy ra lỗi trong quá trình xử lý thanh toán: " + e.getMessage());
+            String deepLink = "motorrent://payment-return?status=error";
+            response.sendRedirect(deepLink);
         }
     }
 

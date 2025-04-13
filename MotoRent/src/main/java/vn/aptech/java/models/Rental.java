@@ -1,5 +1,7 @@
 package vn.aptech.java.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,6 +18,7 @@ public class Rental {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -35,6 +38,7 @@ public class Rental {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "rental", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<RentalDetail> rentalDetails;
 
     public enum RentalStatus {

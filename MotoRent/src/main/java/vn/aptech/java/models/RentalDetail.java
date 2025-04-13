@@ -1,5 +1,6 @@
 package vn.aptech.java.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import vn.aptech.java.listeners.AuditEntityListener;
 
@@ -12,6 +13,7 @@ public class RentalDetail {
     private Long id;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "rental_id", nullable = false)
     private Rental rental;
 
