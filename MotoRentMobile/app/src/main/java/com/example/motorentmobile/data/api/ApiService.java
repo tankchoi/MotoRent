@@ -2,6 +2,7 @@ package com.example.motorentmobile.data.api;
 
 import com.example.motorentmobile.data.model.Account;
 import com.example.motorentmobile.data.model.LoginRequest;
+import com.example.motorentmobile.data.model.Notification;
 import com.example.motorentmobile.data.model.RentalRequest;
 import com.example.motorentmobile.data.model.Vehicle;
 
@@ -54,4 +55,7 @@ public interface ApiService {
 
     @POST("api/payment/vnpay/create")
     Call<Map<String, String>> createPayment(@Body RentalRequest dto);
+
+    @GET("api/notifications")
+    Call<List<Notification>> getNotifications();
 }
