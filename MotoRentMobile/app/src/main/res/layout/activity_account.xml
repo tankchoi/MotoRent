@@ -4,10 +4,6 @@
         <variable
             name="account"
             type="com.example.motorentmobile.data.model.Account" />
-
-        <variable
-            name="viewModel"
-            type="com.example.motorentmobile.viewmodel.AccountViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
@@ -77,13 +73,6 @@
                         android:layout_height="wrap_content"
                         android:text="Thông tin tài khoản" />
 
-                    <ProgressBar
-                        android:id="@+id/progressBar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:visibility="gone"/>
-
 
                     <!-- Họ tên -->
                     <LinearLayout
@@ -104,7 +93,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.fullName}" />
+                            android:text="@{account.fullName}" />
                     </LinearLayout>
 
                     <!-- Số điện thoại -->
@@ -126,7 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.phone}" />
+                            android:text="@{account.phone}" />
                     </LinearLayout>
 
                     <!-- Email -->
@@ -148,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="@={viewModel.account.email}" />
+                            android:text="@{account.email}" />
                     </LinearLayout>
 
                     <!-- CCCD -->
@@ -171,6 +160,7 @@
                             android:layout_height="150dp"
                             android:src="@drawable/avatar_5"
                             android:scaleType="centerInside"
+                            app:imageUrl="@{account.identityCard}"
                             android:layout_weight="2"/>
                     </LinearLayout>
 
@@ -194,6 +184,7 @@
                             android:layout_height="150dp"
                             android:scaleType="centerInside"
                             android:src="@drawable/avatar_5"
+                            app:imageUrl="@{account.driverLicense}"
                             android:layout_weight="2"/>
                     </LinearLayout>
 

@@ -11,18 +11,25 @@ import java.io.InputStream;
 
 public class FileUtils {
 
-    public static Uri saveBitmapToCache(Context context, Bitmap bitmap, String fileName) throws IOException {
+    // Lưu Bitmap vào bộ nhớ cache với định dạng và chất lượng có thể cấu hình
+    public static Uri saveBitmapToCache(Context context, Bitmap bitmap, String fileName, Bitmap.CompressFormat format, int quality) throws IOException {
         File file = new File(context.getCacheDir(), fileName);
-        FileOutputStream fos = new FileOutputStream(file);
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-        fos.close();
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            bitmap.compress(format, quality, fos);
+        }
         return Uri.fromFile(file);
     }
 
+    // Chuyển Uri thành File
     public static File getFileFromUri(Context context, Uri uri) throws IOException {
         File file = new File(context.getCacheDir(), "upload_" + System.currentTimeMillis() + ".jpg");
+
         try (InputStream inputStream = context.getContentResolver().openInputStream(uri);
              FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            if (inputStream == null) {
+                throw new IOException("Cannot open input stream from URI");
+            }
 
             byte[] buffer = new byte[1024];
             int length;

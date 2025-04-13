@@ -76,9 +76,11 @@
                     <TextView
                         android:id="@+id/tvStartTime"
                         android:text="Ngày thuê"
-                        style="@style/InfoRow" />
+                        style="@style/InfoRow"
+                        android:textStyle="bold"/>
 
                     <TextView
+                        android:textStyle="bold"
                         android:id="@+id/tvEndTime"
                         android:text="Ngày trả"
                         style="@style/InfoRow" />
@@ -93,8 +95,13 @@
                         android:id="@+id/rvVehicleList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="8dp"
                         />
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#CCCCCC"
+                        android:layout_marginVertical="12dp" />
                     <TextView
                         android:id="@+id/tvTotalPrice"
                         android:text="Tổng chi phí"
@@ -112,7 +119,7 @@
                         android:text="Thanh toán"
                         android:textColor="@android:color/white"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/btn_background" />
+                        android:backgroundTint="@color/color_background" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </ScrollView>
