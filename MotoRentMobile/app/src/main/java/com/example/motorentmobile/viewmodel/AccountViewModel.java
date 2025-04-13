@@ -109,36 +109,18 @@ public class AccountViewModel extends AndroidViewModel {
     }
 
     // Update account information
-    public void updateAccountInfo(String email, String fullName, String phone, Uri identityCardUri, Uri driverLicenseUri) {
+    public void updateAccountInfo(String email, String fullName, String phone, File identityCard, File driverLicense) {
         try {
-            // Convert URI to File
-            File tempIdentity = identityCardUri != null
-                    ? FileUtils.getFileFromUri(getApplication(), identityCardUri)
-                    : null;
-            File tempLicense = driverLicenseUri != null
-                    ? FileUtils.getFileFromUri(getApplication(), driverLicenseUri)
-                    : null;
+            // Log đường dẫn file đã nén và nén sẵn
+            Log.d("AccountViewModel", "Identity card file: " + (identityCard != null ? identityCard.getAbsolutePath() : "null"));
+            Log.d("AccountViewModel", "Driver license file: " + (driverLicense != null ? driverLicense.getAbsolutePath() : "null"));
 
-            // Copy file into app's storage
-            File realIdentity = null, realLicense = null;
-            if (tempIdentity != null) {
-                realIdentity = new File(getApplication().getFilesDir(), tempIdentity.getName());
-                FileUtils.copy(tempIdentity, realIdentity);
-            }
-            if (tempLicense != null) {
-                realLicense = new File(getApplication().getFilesDir(), tempLicense.getName());
-                FileUtils.copy(tempLicense, realLicense);
-            }
+            // Tạo đối tượng UpdateAccount
+            UpdateAccount updateRequest = new UpdateAccount(email, fullName, phone, identityCard, driverLicense);
 
-            // Log file details
-            Log.d("AccountViewModel", "Identity card file: " + (realIdentity != null ? realIdentity.getAbsolutePath() : "null"));
-            Log.d("AccountViewModel", "Driver license file: " + (realLicense != null ? realLicense.getAbsolutePath() : "null"));
-
-            // Create UpdateAccount object
-            UpdateAccount updateRequest = new UpdateAccount(email, fullName, phone, realIdentity, realLicense);
-
-            // Call repository to update user info
+            // Gọi repository để cập nhật thông tin người dùng
             repository.updateUser(updateRequest);
+
         } catch (Exception e) {
             Log.e("AccountViewModel", "Error when processing images: " + e.getMessage());
             errorMessage.setValue("Lỗi khi xử lý ảnh: " + e.getMessage());

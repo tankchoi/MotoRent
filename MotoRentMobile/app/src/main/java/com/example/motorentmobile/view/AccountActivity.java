@@ -23,6 +23,8 @@ import com.example.motorentmobile.R;
 import com.example.motorentmobile.databinding.ActivityAccountBinding;
 import com.example.motorentmobile.viewmodel.AccountViewModel;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -77,25 +79,46 @@ public class AccountActivity extends BaseActivity {
             }
         });
 
-        // Quan sát trạng thái cập nhật
         viewModel.getUpdateSuccess().observe(this, success -> {
-            if (success) {
-                Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+            if (success != null) {
+                if (success) {
+                    Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        // Xử lý cập nhật tài khoản
+
         btnUpdate.setOnClickListener(v -> {
             String email = binding.edtEmail.getText().toString();
             String fullName = binding.edtFullName.getText().toString();
             String phone = binding.edtPhone.getText().toString();
 
-            if (identityCardUri != null && driverLicenseUri != null) {
-                viewModel.updateAccountInfo(email, fullName, phone, identityCardUri, driverLicenseUri);
-            } else {
-                Toast.makeText(this, "Vui lòng chọn ảnh CCCD và GPLX", Toast.LENGTH_SHORT).show();
+            File cccdFile = null;
+            File gplxFile = null;
+
+            try {
+                if (identityCardUri != null) {
+                    Bitmap cccdBitmap = decodeSampledBitmapFromUri(this, identityCardUri, 500, 500);
+                    cccdFile = saveImageToFile(cccdBitmap, "identity_card.jpg");
+                }
+
+                if (driverLicenseUri != null) {
+                    Bitmap gplxBitmap = decodeSampledBitmapFromUri(this, driverLicenseUri, 500, 500);
+                    gplxFile = saveImageToFile(gplxBitmap, "driver_license.jpg");
+                }
+
+                // Gửi lên ViewModel, cho phép truyền null nếu người dùng không chọn ảnh mới
+                viewModel.updateAccountInfo(email, fullName, phone, cccdFile, gplxFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Không thể xử lý ảnh", Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
         // Bấm vào ảnh CCCD để chọn ảnh mới
         binding.ivCCCD.setOnClickListener(v -> openFilePicker.launch("image/*"));
@@ -125,6 +148,15 @@ public class AccountActivity extends BaseActivity {
                 }
             }
     );
+    private File saveImageToFile(Bitmap bitmap, String fileName) {
+        File file = new File(getExternalFilesDir(null), fileName);
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
 
     /**
      * Hàm giảm kích thước ảnh trước khi giải mã
