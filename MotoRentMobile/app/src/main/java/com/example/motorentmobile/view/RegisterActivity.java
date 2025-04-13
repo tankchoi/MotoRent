@@ -87,6 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
 
             registerViewModel.registerUser(email, password, fullName, phone, identityCardFile, driverLicenseFile);
         });
+
+        binding.tvLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
     // Lưu ảnh vào tệp
     private File saveImageToFile(Bitmap bitmap, String fileName) {

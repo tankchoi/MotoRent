@@ -24,6 +24,12 @@ public class ApiClient {
             SharedPreferencesHelper prefs = SharedPreferencesHelper.getInstance(context);
             String username = prefs.getUsername();
             String password = prefs.getPassword();
+            if (username == null || password == null) {
+                return new Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+            }
 
             String credentials = username + ":" + password;
             String basicAuth = "Basic " + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
