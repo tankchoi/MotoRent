@@ -42,7 +42,7 @@ public class RentalActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        rentalManager = RentalManager.getInstance();
         binding = ActivityRentalBinding.inflate(getLayoutInflater());
         FrameLayout container = findViewById(R.id.container);
         container.addView(binding.getRoot());
@@ -58,7 +58,11 @@ public class RentalActivity extends BaseActivity {
             }
             startActivity(intent);
         });
-        rentalManager = RentalManager.getInstance();
+        binding.btnPayment.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PaymentActivity.class);
+            startActivity(intent);
+        });
+
 
         setupRecyclerView();
         observeRentalData();

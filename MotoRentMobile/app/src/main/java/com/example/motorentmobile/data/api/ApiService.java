@@ -2,9 +2,11 @@ package com.example.motorentmobile.data.api;
 
 import com.example.motorentmobile.data.model.Account;
 import com.example.motorentmobile.data.model.LoginRequest;
+import com.example.motorentmobile.data.model.RentalRequest;
 import com.example.motorentmobile.data.model.Vehicle;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -49,4 +51,7 @@ public interface ApiService {
             @Part MultipartBody.Part identityCardImage,
             @Part MultipartBody.Part driverLicenseImage
     );
+
+    @POST("api/payment/vnpay/create")
+    Call<Map<String, String>> createPayment(@Body RentalRequest dto);
 }

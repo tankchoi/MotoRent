@@ -29,9 +29,8 @@ public class VehicleViewModel extends AndroidViewModel {
         vehicleRepository = new VehicleRepository(application);
         vehicleAdapter = new VehicleAdapter(application, new ArrayList<>());
 
-        // Lắng nghe dữ liệu từ repository
         vehicleRepository.getVehicleList().observeForever(vehicles -> {
-            vehicleAdapter.updateVehicleList(vehicles); // Cập nhật danh sách xe vào adapter
+            vehicleAdapter.updateVehicleList(vehicles);
         });
     }
 
