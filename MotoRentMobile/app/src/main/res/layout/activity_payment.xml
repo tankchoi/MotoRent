@@ -71,9 +71,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="12dp"
-                    app:cardElevation="4dp"
-                    android:padding="16dp"
-                    android:background="@android:color/white">
+                    app:cardElevation="6dp"
+                    android:layout_margin="6dp"
+                    android:padding="20dp"
+                    android:background="@drawable/container_bg">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -83,6 +84,7 @@
 
                         <!-- Các thông tin -->
                         <TextView
+                            android:layout_marginTop="8dp"
                             android:id="@+id/tvStartTime"
                             android:text="Ngày thuê"
                             style="@style/InfoRow" />
@@ -104,14 +106,16 @@
                                 android:id="@+id/rdioDeposit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Cọc 50%" />
+                                android:text="Cọc 50%"
+                                android:backgroundTint="@color/color_background"/>
 
                             <RadioButton
                                 android:id="@+id/rdioFull"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Thanh toán đủ"
-                                android:layout_marginLeft="20dp" />
+                                android:layout_marginLeft="20dp"
+                                android:backgroundTint="@color/color_background"/>
                         </RadioGroup>
 
                         <!-- Divider -->
@@ -126,6 +130,13 @@
                             android:id="@+id/rvVehicleList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
+
+                        <!-- Divider -->
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#CCCCCC"
+                            android:layout_marginVertical="12dp" />
 
                         <!-- Tổng chi phí -->
                         <TextView
@@ -145,8 +156,12 @@
                             android:layout_height="wrap_content"
                             android:text="Xác nhận"
                             android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:padding="8dp"
                             android:layout_marginTop="12dp"
-                            android:background="@drawable/btn_background" />
+                            android:layout_marginBottom="12dp"
+                            android:backgroundTint="@color/color_background" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </ScrollView>

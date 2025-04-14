@@ -19,6 +19,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/container_bg"
         android:padding="4dp"
+        app:cardCornerRadius="18dp"
         android:layout_margin="4dp">
 
         <LinearLayout
@@ -28,96 +29,100 @@
             android:gravity="center_vertical"
             android:padding="20dp">
 
+            <!-- Ảnh -->
             <ImageView
                 android:id="@+id/imageVehicle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                android:contentDescription="Ảnh xe" />
+                android:contentDescription="Ảnh xe"
+                android:background="@drawable/img_style"
+                android:layout_marginEnd="4dp"
+                android:clipToOutline="true"/>
 
+            <!-- Thông tin xe -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text='Tên xe: '
-                        android:textSize="18sp"
-                        android:textColor="#000000"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:layout_weight="2"
-                        android:text="@{vehicle.name}"/>
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text='Hãng xe: '
-                        android:textSize="18sp"
-                        android:textColor="#000000"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#000000"
-                        android:layout_weight="2"
-                        android:text="@{vehicle.brand}"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text='Giá: '
-                        android:textSize="18sp"
-                        android:textColor="#000000"
-                        android:textStyle="bold"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:textColor="#000000"
-                        android:text='@{vehicle.formatPrice}'/>
-                </LinearLayout>
-
-            </LinearLayout>
-            <View
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Tên xe -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tên xe: "
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{vehicle.name}"
+                        android:textColor="#000000"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <!-- Hãng xe -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hãng xe: "
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{vehicle.brand}"
+                        android:textColor="#000000"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <!-- Giá -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giá: "
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#000000" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@{vehicle.formatPrice}"
+                        android:textColor="#000000"
+                        android:maxLines="2"
+                        android:ellipsize="end" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Nút xóa -->
             <ImageButton
                 android:id="@+id/btnDelete"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="center"
-                android:src="@drawable/icons8_remove_30"
-                android:textSize="11sp"
+                android:src="@drawable/icons8_remove_24"
                 android:backgroundTint="@color/cancel"
-                android:textColor="@android:color/white"/>
-
+                android:contentDescription="Xóa" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

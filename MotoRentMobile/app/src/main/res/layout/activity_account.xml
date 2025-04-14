@@ -78,10 +78,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Họ và tên:"
@@ -90,7 +91,7 @@
 
                         <EditText
                             android:id="@+id/edtFullName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="@{account.fullName}" />
@@ -100,19 +101,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Số điện thoại"
+                            android:text="Số điện thoại:"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edtPhone"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="@{account.phone}" />
@@ -122,19 +124,20 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Email"
+                            android:text="Email:"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <EditText
                             android:id="@+id/edtEmail"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="@{account.email}" />
@@ -144,10 +147,11 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Căn cước công dân:"
@@ -156,21 +160,22 @@
 
                         <ImageView
                             android:id="@+id/ivCCCD"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
                             android:layout_height="150dp"
+                            android:layout_weight="2"
                             android:scaleType="centerInside"
-                            app:imageUrl="@{account.identityCard}"
-                            android:layout_weight="2"/>
+                            app:imageUrl="@{account.identityCard}" />
                     </LinearLayout>
 
                     <!-- Bằng lái -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Bằng lái xe:"
@@ -179,12 +184,13 @@
 
                         <ImageView
                             android:id="@+id/ivGPLX"
-                            android:layout_width="150dp"
+                            android:layout_width="0dp"
                             android:layout_height="150dp"
+                            android:layout_weight="2"
                             android:scaleType="centerInside"
-                            app:imageUrl="@{account.driverLicense}"
-                            android:layout_weight="2"/>
+                            app:imageUrl="@{account.driverLicense}" />
                     </LinearLayout>
+
 
                     <!-- Nút Lưu -->
                     <Button
