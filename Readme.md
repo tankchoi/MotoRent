@@ -31,6 +31,7 @@ payment.vnPay.returnUrl=http://192.168.1.13:8080/api/payment/vnpay/return
 Lưu ý: 
 - Đảm bảo MySQL server đang chạy và bạn có tài khoản kết nối hợp lệ.
 - Bạn cần cập nhật dãy IPv4 theo máy tính chạy server , hãy nhớ dãy IP này cũng dùng để cài đặt Android App.
+
 Cách tìm IP:
 - Trên Windows: dùng lệnh ipconfig
 - Trên macOS/Linux: dùng lệnh ifconfig
