@@ -19,6 +19,8 @@ public interface RentalRepository extends JpaRepository<Rental, Long> {
     @Query("SELECT r FROM Rental r WHERE r.status = :status AND r.createdAt < :timeoutThreshold")
     List<Rental> findByStatusAndCreatedAtBefore(@Param("status") Rental.RentalStatus status,
                                                 @Param("timeoutThreshold") LocalDateTime timeoutThreshold);
+    List<Rental> findByUserIdOrderByCreatedAtDesc(Long userId);
+
 
 
 }

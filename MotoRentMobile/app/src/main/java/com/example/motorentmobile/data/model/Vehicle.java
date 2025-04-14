@@ -43,6 +43,6 @@ public class Vehicle implements Serializable {
         return vehicleImages;
     }
     public String getFormatPrice(){
-        return FormatMoneyUtil.format(pricePerDay);
+        return FormatMoneyUtil.format(pricePerDay) + " / ngày";
     }
 }

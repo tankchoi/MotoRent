@@ -33,6 +33,6 @@ public class NotificationService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUsername = authentication.getName();
         User user = userService.findByEmail(currentUsername);
-        return user.getNotifications();
+        return notificationRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
     }
 }

@@ -40,7 +40,7 @@ public class RentalService {
         if (user == null) {
             throw new IllegalArgumentException("Người dùng không tồn tại");
         }
-        return rentalRepository.findByUserId(user.getId());
+        return rentalRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
     }
     public List<Rental> getAllRentals() {
         return rentalRepository.findAll();

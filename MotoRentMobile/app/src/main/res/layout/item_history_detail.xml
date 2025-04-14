@@ -38,7 +38,7 @@
             android:id="@+id/tvPricePerDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text='@{"Giá thuê/ngày: " + rentalDetail.pricePerDay}' />
+            android:text='@{"Giá: " + rentalDetail.formatPricePerDay}' />
 
         <!-- Divider -->
         <View

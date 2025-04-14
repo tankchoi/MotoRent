@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.motorentmobile.R;
+import com.example.motorentmobile.data.api.ApiClient;
 import com.example.motorentmobile.databinding.ActivityHomeBinding;
 import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.RentalManager;
@@ -133,6 +134,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
         }
         binding.btnLogout.setOnClickListener(v -> {
             prefs.clear();
+            ApiClient.resetClient();
+            RentalManager.getInstance().clear();
             Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
             recreate();
         });

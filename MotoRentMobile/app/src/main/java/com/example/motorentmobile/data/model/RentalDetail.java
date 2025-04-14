@@ -1,5 +1,7 @@
 package com.example.motorentmobile.data.model;
 
+import com.example.motorentmobile.util.FormatMoneyUtil;
+
 import java.io.Serializable;
 
 public class RentalDetail implements Serializable {
@@ -55,5 +57,8 @@ public class RentalDetail implements Serializable {
 
     public double getPricePerDay() {
         return pricePerDay;
+    }
+    public String getFormatPricePerDay() {
+        return FormatMoneyUtil.format(pricePerDay) + " / ngày";
     }
 }
