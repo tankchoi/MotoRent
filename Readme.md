@@ -40,8 +40,7 @@ Cách tìm IP:
 Cả máy tính chạy backend và điện thoại (nếu test thật) phải chung mạng WiFi.
 
 3. Chạy ứng dụng
-Mở project MotoRent bằng IntelliJ hoặc Eclipse, chạy file com.motorrent.MotoRentApplication.
-Mặc định server sẽ chạy tại http://localhost:8080
+Mở project MotoRent bằng IntelliJ hoặc Eclipse, chạy file vn.aptech.java.MotoRentApplication. Mặc định server sẽ chạy tại http://localhost:8080
 
 ## 📱 Cài đặt Android App (MotoRentMobile)
 
