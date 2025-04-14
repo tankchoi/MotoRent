@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.motorentmobile.viewmodel.RentalManager;
+
 public class PaymentResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +22,19 @@ public class PaymentResultActivity extends AppCompatActivity {
 
             if ("success".equals(status)) {
                 Toast.makeText(this, "🎉 Thanh toán thành công! Mã đơn: " + orderId, Toast.LENGTH_LONG).show();
+                RentalManager rentalManager = RentalManager.getInstance();
+                rentalManager.clear();
+                Intent intent = new Intent(this, HistoryActivity.class);
+                startActivity(intent);
             } else if ("failure".equals(status)) {
                 Toast.makeText(this, "❌ Thanh toán thất bại!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(this, RentalActivity.class);
+                startActivity(intent);
             } else {
                 Toast.makeText(this, "⚠ Đã xảy ra lỗi trong quá trình thanh toán!", Toast.LENGTH_LONG).show();
             }
         }
-        Intent intent = new Intent(this, HistoryActivity.class);
-        startActivity(intent);
+
         finish();
     }
 }
