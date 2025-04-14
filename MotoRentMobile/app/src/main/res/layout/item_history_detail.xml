@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
-        android:background="?android:attr/selectableItemBackground">
+        android:layout_margin="8dp">
 
         <TextView
             android:id="@+id/tvVehicleName"
@@ -39,6 +39,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text='@{"Giá thuê/ngày: " + rentalDetail.pricePerDay}' />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginVertical="12dp" />
 
     </LinearLayout>
 </layout>

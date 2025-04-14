@@ -31,4 +31,12 @@
     <string name="color_vehicle" />
     <string name="price_vehicle" />
     <string name="type_vehicle" />
+    <string name="time_start">Ngày nhận</string>
+    <string name="time_end">Ngày trả</string>
+    <string name="rental_vehicle">Đặt xe</string>
+    <string name="local_store">Địa điểm cửa hàng</string>
+    <string name="logo_motorbike">Ảnh xe</string>
+    <string name="tx_logout">Đăng xuất</string>
+    <string name="logo_rental">logo_rental</string>
+    <string name="logo_calendar">logo_calendar</string>
 </resources>
