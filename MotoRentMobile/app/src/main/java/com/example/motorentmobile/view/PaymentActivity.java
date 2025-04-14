@@ -14,6 +14,7 @@ import com.example.motorentmobile.R;
 import com.example.motorentmobile.adapter.PaymentAdapter;
 import com.example.motorentmobile.databinding.ActivityPaymentBinding;
 import com.example.motorentmobile.util.FormatMoneyUtil;
+import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.PaymentViewModel;
 import com.example.motorentmobile.viewmodel.RentalManager;
 
@@ -26,10 +27,16 @@ public class PaymentActivity extends AppCompatActivity {
     private ActivityPaymentBinding binding;
     private PaymentViewModel viewModel;
     private RentalManager rentalManager;
+    private SharedPreferencesHelper prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = SharedPreferencesHelper.getInstance(this);
+        if (!prefs.isLoggedIn()){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_payment);
         viewModel = new ViewModelProvider(this).get(PaymentViewModel.class);
         rentalManager = RentalManager.getInstance();

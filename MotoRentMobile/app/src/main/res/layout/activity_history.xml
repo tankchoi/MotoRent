@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HistoryFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!-- ViewModel binding -->
+        <variable
+            name="viewModel"
+            type="com.example.motorentmobile.viewmodel.HistoryViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".view.HistoryActivity">
 
         <!-- Nút quay lại -->
         <LinearLayout
@@ -20,12 +25,13 @@
             android:orientation="horizontal"
             android:paddingHorizontal="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/icons8_arrow_24"/>
+                android:src="@drawable/icons8_arrow_24" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,27 +45,30 @@
         <!-- Tiêu đề -->
         <TextView
             android:id="@+id/title"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_marginTop="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:text="Lịch sử thuê xe"
             android:textStyle="bold"
             android:textColor="#000000"
             android:textSize="24sp"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/back_btn" />
 
+        <!-- Danh sách lịch sử -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvHistoryList"
-            android:layout_width="match_parent"
+            android:id="@+id/rcvHistoryList"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/title"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-
-
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:adapter="@{viewModel.HistoryAdapter}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+</layout>

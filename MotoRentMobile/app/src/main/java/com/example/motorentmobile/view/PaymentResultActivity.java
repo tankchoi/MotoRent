@@ -26,6 +26,8 @@ public class PaymentResultActivity extends AppCompatActivity {
                 Toast.makeText(this, "⚠ Đã xảy ra lỗi trong quá trình thanh toán!", Toast.LENGTH_LONG).show();
             }
         }
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
         finish();
     }
 }

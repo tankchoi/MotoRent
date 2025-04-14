@@ -1,123 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="rental"
+            type="com.example.motorentmobile.data.model.Rental" />
+    </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="4dp"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:elevation="4dp"
+        android:radius="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Header: ngày & trạng thái -->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvRentalId"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:text='@{"Mã thuê: #" + rental.id}'
+                android:textStyle="bold"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/tvStartTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="14/03/2025"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-
-                <TextView
-                    android:id="@+id/tvEndTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="17/03/2025"
-                    android:layout_marginLeft="20dp"
-                    app:layout_constraintStart_toEndOf="@+id/tvStartTime"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Trạng thái"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Divider -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black"
-                android:layout_marginHorizontal="20dp"/>
-
-            <!-- Danh sách các xe -->
-            <LinearLayout
-                android:id="@+id/layout_vehicle_list"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:text='@{rental.formattedDateRange}'
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
 
-                <!-- Một xe -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
+            <TextView
+                android:id="@+id/tvAmountPaid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:formattedPaidText="@{rental.amoutPaid}"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
 
-                    <ImageView
-                        android:id="@+id/ivVehicleImage"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="@drawable/airblade_5"
-                        android:scaleType="centerCrop" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingStart="8dp">
-
-                        <TextView
-                            android:id="@+id/tvVehicleName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Airblade 5"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/tvVehiclePrice"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:text="Giá: 200.000đ" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Bạn có thể lặp nhiều xe ở đây bằng code -->
-
-
-
-            </LinearLayout>
-
-            <!-- Tổng tiền cuối -->
             <TextView
                 android:id="@+id/tvTotalPrice"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:text="Tổng tiền: 400.000đ"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:padding="12dp"
-                android:paddingEnd="20dp"/>
+                app:formattedTotalText="@{rental.totalPrice}"
+                android:textSize="14sp"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/tvPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{"Phương thức: " + rental.paymentMethod}'
+                android:textSize="14sp"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+            app:textStatus="@{rental.status}"
+            app:textColorStatus="@{rental.status}"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-</LinearLayout>
+
+</layout>

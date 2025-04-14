@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.motorentmobile.R;
 import com.example.motorentmobile.databinding.ActivityAccountBinding;
+import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.AccountViewModel;
 
 import java.io.File;
@@ -35,6 +36,7 @@ public class AccountActivity extends BaseActivity {
     private Uri identityCardUri, driverLicenseUri;
     private ProgressBar progressBar;
     private Button btnUpdate;
+    private SharedPreferencesHelper prefs;
 
     @Override
     protected int getLayoutResourceId() {
@@ -49,7 +51,11 @@ public class AccountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        prefs = SharedPreferencesHelper.getInstance(this);
+        if(!prefs.isLoggedIn()){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
         binding = ActivityAccountBinding.inflate(getLayoutInflater());
         FrameLayout container = findViewById(R.id.container);
         container.addView(binding.getRoot());

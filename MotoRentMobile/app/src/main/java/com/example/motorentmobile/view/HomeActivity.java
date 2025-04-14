@@ -4,11 +4,13 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.example.motorentmobile.R;
 import com.example.motorentmobile.databinding.ActivityHomeBinding;
+import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.RentalManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +32,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
     private MapView mapView;
     private GoogleMap googleMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-
+    private SharedPreferencesHelper prefs;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_home;
@@ -44,6 +46,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = SharedPreferencesHelper.getInstance(this);
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         FrameLayout container = findViewById(R.id.container);
@@ -125,7 +128,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback {
                 Toast.makeText(this, "Lỗi định dạng ngày", Toast.LENGTH_SHORT).show();
             }
         });
-
+        if(!prefs.isLoggedIn()) {
+            binding.btnLogout.setVisibility(View.GONE);
+        }
+        binding.btnLogout.setOnClickListener(v -> {
+            prefs.clear();
+            Toast.makeText(this, "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+            recreate();
+        });
 
 
     }

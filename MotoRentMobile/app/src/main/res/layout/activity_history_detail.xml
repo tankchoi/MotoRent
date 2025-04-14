@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <!-- ViewModel binding -->
+        <variable
+            name="viewModel"
+            type="com.example.motorentmobile.viewmodel.HistoryDetailViewModel" />
+    </data>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+
+        <TextView
+            android:id="@+id/tvRentalId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Mã thuê: #" + viewModel.rental.id}'
+            android:textStyle="bold"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{viewModel.rental.formattedDateRange}'
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/tvAmountPaid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:formattedPaidText="@{viewModel.rental.amoutPaid}"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tvTotalPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:formattedTotalText="@{viewModel.rental.totalPrice}"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvPaymentMethod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Phương thức: " + viewModel.rental.paymentMethod}'
+            android:textSize="14sp"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:textStatus="@{viewModel.rental.status}"
+            app:textColorStatus="@{viewModel.rental.status}"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcvHistoryDetailList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter="@{viewModel.HistoryDetailAdapter}"/>
+
+    </LinearLayout>
+</ScrollView>
+</layout>

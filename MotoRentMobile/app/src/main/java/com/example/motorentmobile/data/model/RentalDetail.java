@@ -1,6 +1,8 @@
 package com.example.motorentmobile.data.model;
 
-public class RentalDetail {
+import java.io.Serializable;
+
+public class RentalDetail implements Serializable {
     private Long id;
     private String vehicleName;
     private String vehicleBrand;

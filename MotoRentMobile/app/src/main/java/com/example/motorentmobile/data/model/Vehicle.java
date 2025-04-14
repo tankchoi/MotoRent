@@ -1,6 +1,7 @@
 package com.example.motorentmobile.data.model;
 
 import com.example.motorentmobile.data.model.VehicleImage;
+import com.example.motorentmobile.util.FormatMoneyUtil;
 
 import java.io.Serializable;
 import java.util.List;
@@ -40,5 +41,8 @@ public class Vehicle implements Serializable {
 
     public List<VehicleImage> getVehicleImages() {
         return vehicleImages;
+    }
+    public String getFormatPrice(){
+        return FormatMoneyUtil.format(pricePerDay);
     }
 }

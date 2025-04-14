@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="rentalDetail"
+            type="com.example.motorentmobile.data.model.RentalDetail" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="?android:attr/selectableItemBackground">
+
+        <TextView
+            android:id="@+id/tvVehicleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{rentalDetail.vehicleName}' />
+
+        <TextView
+            android:id="@+id/tvVehicleBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{rentalDetail.vehicleBrand}' />
+
+        <TextView
+            android:id="@+id/tvLicensePlate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{rentalDetail.licensePlate}' />
+
+        <TextView
+            android:id="@+id/tvPricePerDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text='@{"Giá thuê/ngày: " + rentalDetail.pricePerDay}' />
+
+    </LinearLayout>
+</layout>

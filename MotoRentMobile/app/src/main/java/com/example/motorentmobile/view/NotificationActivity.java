@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.motorentmobile.R;
 import com.example.motorentmobile.adapter.NotificationAdapter;
 import com.example.motorentmobile.databinding.ActivityNotificationBinding;
+import com.example.motorentmobile.util.SharedPreferencesHelper;
 import com.example.motorentmobile.viewmodel.NotificationViewModel;
 import com.example.motorentmobile.data.model.Notification;
 
@@ -24,7 +25,7 @@ public class NotificationActivity extends BaseActivity {
     private NotificationViewModel viewModel;
     private ActivityNotificationBinding binding;
     private NotificationAdapter adapter;
-
+    private SharedPreferencesHelper prefs;
     private static final String TAG = "NotificationActivity"; // Thêm tag cho các log
 
     @Override
@@ -40,7 +41,11 @@ public class NotificationActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        prefs = SharedPreferencesHelper.getInstance(this);
+        if (!prefs.isLoggedIn()){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        }
         binding = ActivityNotificationBinding.inflate(getLayoutInflater());
         FrameLayout container = findViewById(R.id.container);
         container.addView(binding.getRoot());

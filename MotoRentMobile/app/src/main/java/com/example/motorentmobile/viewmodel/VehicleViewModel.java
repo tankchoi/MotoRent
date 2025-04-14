@@ -3,6 +3,7 @@ package com.example.motorentmobile.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.Observable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -32,6 +33,12 @@ public class VehicleViewModel extends AndroidViewModel {
         vehicleRepository.getVehicleList().observeForever(vehicles -> {
             vehicleAdapter.updateVehicleList(vehicles);
         });
+        searchQuery.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                filterList(searchQuery.get());
+            }
+        });
     }
 
     public LiveData<List<Vehicle>> getVehicleList() {
@@ -49,11 +56,20 @@ public class VehicleViewModel extends AndroidViewModel {
     public void fetchAvailableVehicles(String startTime, String endTime) {
         vehicleRepository.fetchAvailableVehicles(startTime, endTime);
     }
+    private void filterList(String query) {
+        List<Vehicle> originalList = vehicleRepository.getVehicleList().getValue();
+        if (originalList != null) {
+            List<Vehicle> filteredList = new ArrayList<>();
+            for (Vehicle vehicle : originalList) {
+                if (vehicle.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredList.add(vehicle);
+                }
+            }
+            vehicleAdapter.updateVehicleList(filteredList);
+        }
+    }
 
     public void onFilterClick() {
-        String query = searchQuery.get();
-        if (query != null && !query.isEmpty()) {
-            vehicleRepository.fetchAvailableVehicles("2025-04-12T08:00:00", "2025-04-12T18:00:00"); // Thực thi lại tìm kiếm
-        }
+
     }
 }
