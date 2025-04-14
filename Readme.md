@@ -26,9 +26,17 @@ spring.datasource.username=your_mysql_username
 spring.datasource.password=your_mysql_password
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+payment.vnPay.returnUrl=http://192.168.1.13:8080/api/payment/vnpay/return
 ```
-Lưu ý: đảm bảo MySQL server đang chạy và bạn có tài khoản kết nối hợp lệ.
+Lưu ý: 
+- Đảm bảo MySQL server đang chạy và bạn có tài khoản kết nối hợp lệ.
+- Bạn cần cập nhật dãy IPv4 theo máy tính chạy server , hãy nhớ dãy IP này cũng dùng để cài đặt Android App.
+Cách tìm IP:
+- Trên Windows: dùng lệnh ipconfig
+- Trên macOS/Linux: dùng lệnh ifconfig
+- Nếu dùng Android Emulator thì thay localhost bằng 10.0.2.2
 
+Cả máy tính chạy backend và điện thoại (nếu test thật) phải chung mạng WiFi.
 3. Chạy ứng dụng
 Mở project MotoRent bằng IntelliJ hoặc Eclipse, chạy file com.motorrent.MotoRentApplication.
 Mặc định server sẽ chạy tại http://localhost:8080
@@ -45,12 +53,6 @@ Mặc định server sẽ chạy tại http://localhost:8080
 
 `public static final String BASE_URL = "http://192.168.1.10:8080/api/";`
 
-Cách tìm IP:
-- Trên Windows: dùng lệnh ipconfig
-- Trên macOS/Linux: dùng lệnh ifconfig
-- Nếu dùng Android Emulator thì thay localhost bằng 10.0.2.2
-
-Cả máy tính chạy backend và điện thoại (nếu test thật) phải chung mạng WiFi.
 
 3. Cho phép kết nối HTTP từ Android:
 File `res/xml/network_security_config.xml` đã có sẵn, bạn chỉ cần sửa lại  bằng IP thực tế của máy đang chạy backend: 
