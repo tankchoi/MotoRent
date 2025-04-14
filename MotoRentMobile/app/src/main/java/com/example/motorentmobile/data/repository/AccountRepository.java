@@ -52,6 +52,8 @@ public class AccountRepository {
         });
     }
 
+
+
     // Cập nhật tài khoản
     public void updateUser(UpdateAccount updateRequest) {
         // Tạo các RequestBody từ đối tượng UpdateRequest
@@ -83,13 +85,15 @@ public class AccountRepository {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Cập nhật trạng thái thành công
+                    Log.d(TAG, "Cập nhật thành công");
                     isSuccess.setValue(true);
                 } else {
                     try {
                         String errorResponse = response.errorBody() != null ? response.errorBody().string() : "Lỗi không xác định";
+                        Log.e(TAG, "Lỗi phản hồi từ server: " + errorResponse);
                         errorMessage.setValue(errorResponse);
                     } catch (Exception e) {
+                        Log.e(TAG, "Lỗi khi đọc errorBody: " + e.getMessage());
                         errorMessage.setValue("Lỗi đọc phản hồi: " + e.getMessage());
                     }
                 }
@@ -97,9 +101,10 @@ public class AccountRepository {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Cập nhật trạng thái lỗi
+                Log.e(TAG, "Lỗi kết nối đến server: " + t.getMessage());
                 errorMessage.setValue("Lỗi kết nối: " + t.getMessage());
             }
+
         });
     }
 
