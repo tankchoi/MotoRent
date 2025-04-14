@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -84,9 +85,16 @@ public class AccountActivity extends BaseActivity {
                 Toast.makeText(this, "Không thể tải dữ liệu tài khoản", Toast.LENGTH_SHORT).show();
             }
         });
+        viewModel.getErrorMessage().observe(this, errorMessage -> {
+            if (errorMessage != null) {
+                Log.d("AccountActivity", "LỖI từ ViewModel: " + errorMessage);  // 👈 Log lỗi
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         viewModel.getUpdateSuccess().observe(this, success -> {
             if (success != null) {
+                Log.d("AccountActivity", "Cập nhật thành công? " + success);  // 👈 Log kết quả
                 if (success) {
                     Toast.makeText(this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {
@@ -96,10 +104,12 @@ public class AccountActivity extends BaseActivity {
         });
 
 
+
         btnUpdate.setOnClickListener(v -> {
             String email = binding.edtEmail.getText().toString();
             String fullName = binding.edtFullName.getText().toString();
             String phone = binding.edtPhone.getText().toString();
+
 
             File cccdFile = null;
             File gplxFile = null;

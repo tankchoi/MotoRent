@@ -120,6 +120,18 @@ public class AccountViewModel extends AndroidViewModel {
 
             // Gọi repository để cập nhật thông tin người dùng
             repository.updateUser(updateRequest);
+            // Quan sát kết quả từ Repository
+            repository.getIsSuccess().observeForever(success -> {
+                if (success != null && success) {
+                    updateSuccess.postValue(true);
+                }
+            });
+
+            repository.getErrorMessage().observeForever(message -> {
+                if (message != null) {
+                    errorMessage.postValue(message);
+                }
+            });
 
         } catch (Exception e) {
             Log.e("AccountViewModel", "Error when processing images: " + e.getMessage());
