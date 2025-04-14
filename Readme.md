@@ -35,7 +35,7 @@ Lưu ý:
 Cách tìm IP:
 - Trên Windows: dùng lệnh ipconfig
 - Trên macOS/Linux: dùng lệnh ifconfig
-- Nếu dùng Android Emulator thì thay localhost bằng 10.0.2.2
+- Nếu dùng Android Emulator thì thay bằng 10.0.2.2
 
 Cả máy tính chạy backend và điện thoại (nếu test thật) phải chung mạng WiFi.
 
